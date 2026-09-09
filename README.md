@@ -62,5 +62,19 @@ serve from the project root rather than opening files directly.
 
 ## Deploy
 
-Upload everything except `README.md` to the web root. Any static host works
-(Zone, Veebimajutus, Netlify, Cloudflare Pages). `.htaccess` is only read by Apache.
+Hosted on **GitHub Pages** from the `main` branch (root). Every push to `main`
+redeploys within a minute or two. The `CNAME` file pins the custom domain
+`kodukontroll.com`; DNS for the domain is managed at Hostinger and points to
+GitHub Pages:
+
+```
+A     @    185.199.108.153
+A     @    185.199.109.153
+A     @    185.199.110.153
+A     @    185.199.111.153
+CNAME www  jakovsobolewski.github.io
+```
+
+`.htaccess` is ignored by GitHub Pages; it is kept in case the site is ever
+moved to Apache hosting (e.g. Hostinger's own web hosting with Git deploy).
+GitHub Pages serves `/teenus` as `teenus.html` on its own.
