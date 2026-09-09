@@ -62,19 +62,14 @@ serve from the project root rather than opening files directly.
 
 ## Deploy
 
-Hosted on **GitHub Pages** from the `main` branch (root). Every push to `main`
-redeploys within a minute or two. The `CNAME` file pins the custom domain
-`kodukontroll.com`; DNS for the domain is managed at Hostinger and points to
-GitHub Pages:
+Hosted on **Hostinger** web hosting, deployed from this GitHub repository with
+hPanel's Git integration (Websites → kodukontroll.com → Advanced → Git).
+The repo is pulled into `public_html`; the branch is `main`.
 
-```
-A     @    185.199.108.153
-A     @    185.199.109.153
-A     @    185.199.110.153
-A     @    185.199.111.153
-CNAME www  jakovsobolewski.github.io
-```
-
-`.htaccess` is ignored by GitHub Pages; it is kept in case the site is ever
-moved to Apache hosting (e.g. Hostinger's own web hosting with Git deploy).
-GitHub Pages serves `/teenus` as `teenus.html` on its own.
+- Auto-deploy: hPanel's Git page provides a webhook URL. It is registered as a
+  push webhook on this repo, so every push to `main` redeploys.
+- Manual redeploy: hPanel → Git → Deploy.
+- `.htaccess` is active on Hostinger (Apache/LiteSpeed): HTTPS + www redirect,
+  extensionless URLs, caching, custom 404.
+- SSL: enable the free Let's Encrypt certificate in hPanel → Security → SSL
+  once the domain points at the hosting.
