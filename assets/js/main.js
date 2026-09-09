@@ -18,7 +18,7 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var data = new FormData(form);
-      var to = form.getAttribute('data-to') || 'info@kodukontroll.ee';
+      var to = form.getAttribute('data-to') || 'info@kodukontroll.com';
       var en = document.documentElement.lang === 'en';
       var L = en
         ? { subject: 'Inspection request', name: 'Name', phone: 'Phone', email: 'Email', type: 'Furniture type', city: 'Location', date: 'Timing', msg: 'Details' }

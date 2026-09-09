@@ -4,7 +4,7 @@ Static marketing site for an independent furniture-installation inspection
 service in Estonia ("owner's supervision, but for premium furniture").
 No build step, no dependencies. Plain HTML/CSS/JS.
 
-The brand and domain are **Kodukontroll / kodukontroll.ee**. Search and
+The brand and domain are **Kodukontroll / kodukontroll.com**. Search and
 replace the placeholder contact details listed below before publishing.
 
 ## Files
@@ -29,13 +29,13 @@ assets/js/main.js           Mobile nav, contact form, footer year
 | What | Where | Current value |
 |---|---|---|
 | Phone | every page (`tel:` links, JSON-LD) | `+372 5000 0000` |
-| Email | every page, `data-to` on forms | `info@kodukontroll.ee` |
+| Email | every page, `data-to` on forms | `info@kodukontroll.com` |
 | Company name / reg. number | footers, `meist.html` | `Kodukontroll OÜ` |
-| Domain | canonical/og/sitemap/robots | `kodukontroll.ee` |
+| Domain | canonical/og/sitemap/robots | `kodukontroll.com` |
 | Prices | `index.html`, `hinnakiri.html`, `en/index.html`, JSON-LD | 290 € / 590 € / add-ons |
 | Service area | `kontakt.html`, `en/index.html` | Tallinn, Tartu, Pärnu… |
 
-Quick find: `grep -rn "5000 0000\|kodukontroll.ee\|Kodukontroll OÜ" --include=*.html .`
+Quick find: `grep -rn "5000 0000\|kodukontroll.com\|Kodukontroll OÜ" --include=*.html .`
 
 ## Contact form
 
