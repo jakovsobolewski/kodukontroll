@@ -47,6 +47,11 @@ Quick find: `grep -rn "5555 5555\|37255555555\|info@kodukontroll.ee" --include=*
 
 ## Editing content
 
+`style.css` and `main.js` are referenced with a `?v=<hash>` query string in all
+four HTML files. `.htaccess` lets browsers cache CSS/JS for a month, so after
+editing either file change the `?v=` value everywhere (any new string works),
+otherwise visitors keep the old file and the layout breaks.
+
 The three HTML files are hand-editable. If you change structure, edit all
 three so the anchors and section order stay identical. Prices live in the
 `#pricing` cards (`data-count` drives the count-up animation — keep it equal
