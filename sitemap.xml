@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.w3.org/1999/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url><loc>https://kodukontroll.com/</loc><xhtml:link rel="alternate" hreflang="en" href="https://kodukontroll.com/en/"/><changefreq>monthly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://kodukontroll.com/teenus</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://kodukontroll.com/hinnakiri</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://kodukontroll.com/meist</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://kodukontroll.com/kontakt</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://kodukontroll.com/en/</loc><xhtml:link rel="alternate" hreflang="et" href="https://kodukontroll.com/"/><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://kodukontroll.ee/</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://kodukontroll.ee/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodukontroll.ee/en/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kodukontroll.ee/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodukontroll.ee/"/>
+    <changefreq>monthly</changefreq><priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://kodukontroll.ee/en/</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://kodukontroll.ee/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodukontroll.ee/en/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kodukontroll.ee/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodukontroll.ee/"/>
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kodukontroll.ee/ru/</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://kodukontroll.ee/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodukontroll.ee/en/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kodukontroll.ee/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodukontroll.ee/"/>
+    <changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
 </urlset>
