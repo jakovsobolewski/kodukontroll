@@ -5,11 +5,9 @@ renovation work, built-in furniture, appliance installation, plumbing and
 electrical work are checked before the client signs the acceptance act.
 No build step, no dependencies. Plain HTML/CSS/JS.
 
-Brand: **Kodukontroll**. Legal entity: Little Kris OÜ. The site is served from
-**kodukontroll.com** (Hostinger); **kodukontroll.ee** is registered at Zone.ee and
-currently only forwards to the .com home page. Canonical URLs, hreflang, sitemap
-and robots therefore use kodukontroll.com until the .ee domain is attached to the
-hosting (see Deploy). Email stays info@kodukontroll.ee.
+Brand and domain: **Kodukontroll / kodukontroll.ee** (registered at Zone.ee, DNS
+delegated to Hostinger's nameservers, hosted on Hostinger). Legal entity: Little
+Kris OÜ. kodukontroll.com is a parked alias that `.htaccess` redirects to .ee.
 Site copy follows `Kodukontroll_итоговый_текст_сайта.docx` (Russian original);
 the Estonian and English pages are translations of it.
 
@@ -99,7 +97,7 @@ serve from the project root rather than opening files directly.
 ## Deploy
 
 Hosted on **Hostinger** web hosting, deployed from this GitHub repository with
-hPanel's Git integration (Websites → kodukontroll.com → Advanced → Git).
+hPanel's Git integration (Websites → kodukontroll.ee → Advanced → Git).
 The repo is pulled into `public_html`; the branch is `main`.
 
 - Auto-deploy: hPanel's Git page provides a webhook URL. It is registered as a
@@ -109,14 +107,9 @@ The repo is pulled into `public_html`; the branch is `main`.
 - SSL: enable the free Let's Encrypt certificate in hPanel → Security → SSL
   once the domain points at the hosting.
 
-### Moving to kodukontroll.ee
+### Domains
 
-1. hPanel → Domains → add kodukontroll.ee as an alias (or make it the primary
-   domain) of this website.
-2. At Zone.ee remove the forward and point the A record of `kodukontroll.ee`
-   and `www` at the Hostinger IP shown in hPanel (or switch nameservers to
-   Hostinger's).
-3. Enable SSL for the .ee domain in hPanel.
-4. Replace `https://kodukontroll.com` with `https://kodukontroll.ee` in the three
-   `index.html` files, `sitemap.xml` and `robots.txt`, and add a `.htaccess`
-   redirect from .com to .ee.
+- kodukontroll.ee is the primary domain of the website in hPanel; its nameservers
+  at Zone.ee are `atlas.dns-parking.com` / `hyperion.dns-parking.com`.
+- kodukontroll.com is added as a parked domain in hPanel; `.htaccess` sends any
+  host other than kodukontroll.ee to https://kodukontroll.ee with the same path.
