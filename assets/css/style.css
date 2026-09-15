@@ -1,7 +1,8 @@
 /* ============================================================
    Kodukontroll — Sõltumatu kontroll
-   Plain CSS, no build step. Light only. One family: Onest
-   (400 text, 500 nav/buttons, 600 labels, 700/800 headings).
+   Plain CSS, no build step. Light only.
+   Titles + logo: Helvetica (system) with Arimo as the web fallback.
+   Everything else: Onest (400 text, 500 nav/buttons, 600 labels).
    Colour rule: red marks a finding, blue marks a check; all else ink.
    Motion: hero word rise, drawing draw-in, scroll reveal,
    tabs, timeline fill, count-up, FAQ accordion. Honors
@@ -25,9 +26,12 @@
   --check: #17336E;
   --ink-hover: #3A3A3C;
   --mark-hover: #960800;
+  --mark-soft: #CF2A1F;   /* lighter red: section standfirsts only */
   --radius-btn: 8px;
   --sans: "Onest", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --sans-head: var(--sans);
+  /* Titles + logo: real Helvetica where installed (macOS, iOS), Arimo as the
+     metric-compatible web fallback everywhere else. Both cover ET + Cyrillic. */
+  --sans-head: "Helvetica Now Display", "Helvetica Neue", Helvetica, "Arimo", Arial, sans-serif;
   --sans-cond: var(--sans);
   --sans-xcond: var(--sans);
   --max: 1240px;
@@ -53,8 +57,8 @@ a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; 
 a:hover { text-decoration-color: var(--check); }
 p { margin: 0 0 1em; }
 ul, ol, dl { margin: 0; padding: 0; }
-h1, h2, h3, h4 { font-family: var(--sans-head); font-weight: 700; margin: 0; letter-spacing: -.025em; line-height: 1.1; }
-h1 { font-size: clamp(2.3rem, 5.8vw, 4.8rem); letter-spacing: -.035em; line-height: 1.02; max-width: 22ch; text-wrap: pretty; }
+h1, h2, h3, h4 { font-family: var(--sans-head); font-weight: 700; margin: 0; letter-spacing: -.02em; line-height: 1.12; }
+h1 { font-size: clamp(2.2rem, 5.6vw, 4.6rem); letter-spacing: -.03em; line-height: 1.04; max-width: 23ch; text-wrap: pretty; }
 html[lang="en"] h1, html[lang="ru"] h1 { font-size: clamp(2.1rem, 5.2vw, 4.4rem); max-width: 24ch; }
 h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -.03em; max-width: 24ch; text-wrap: balance; }
 h3 { font-size: 1.4rem; line-height: 1.2; }
@@ -127,7 +131,7 @@ strong, .strong { font-weight: 600; }
 .top.is-scrolled .container { padding-top: .65rem; padding-bottom: .65rem; }
 .brand { text-decoration: none; display: inline-flex; align-items: center; gap: .5rem; }
 .brand__mark { width: 32px; height: 32px; flex: none; display: block; }
-.brand__name { font-family: var(--sans-head); font-size: 1.3rem; font-weight: 700; letter-spacing: -.03em; }
+.brand__name { font-family: var(--sans-head); font-size: 1.32rem; font-weight: 700; letter-spacing: -.02em; }
 .top .brand__name { color: var(--ink-2); }
 .brand__desc { display: none; font-size: .95rem; line-height: 1.2; color: var(--ink-2); padding-left: .9rem; border-left: 1px solid var(--rule-2); white-space: nowrap; }
 @media (min-width: 1150px) { .brand__desc { display: inline; } }
@@ -239,7 +243,7 @@ strong, .strong { font-weight: 600; }
 .sec__head { margin-bottom: clamp(1.8rem, 3vw, 2.8rem); display: grid; gap: 1rem; }
 /* --- Section titles: blue heading, red standfirst (brand kit) --- */
 .sec__head h2, .prose h2, .faq__intro h2 { color: var(--check); }
-.sec__head > .dim, .sec__head > .lead, .faq__intro > .dim { color: var(--mark); }
+.sec__head > .dim, .sec__head > .lead, .faq__intro > .dim { color: var(--mark-soft); }
 .sec__head > .dim .strong, .sec__head > .dim b { color: inherit; }
 @media (min-width: 1000px) { .sec__head--split { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 3rem; align-items: end; } }
 .sec__head .lead { max-width: 52ch; }
