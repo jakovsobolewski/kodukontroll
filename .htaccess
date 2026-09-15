@@ -10,10 +10,8 @@ RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
 # kodukontroll.com (and any other alias) -> kodukontroll.ee
-# TEMPORARILY DISABLED until kodukontroll.ee resolves on Hostinger DNS;
-# uncomment the two lines below once https://kodukontroll.ee loads.
-#RewriteCond %{HTTP_HOST} !^kodukontroll\.ee$ [NC]
-#RewriteRule ^ https://kodukontroll.ee%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTP_HOST} !^kodukontroll\.ee$ [NC]
+RewriteRule ^ https://kodukontroll.ee%{REQUEST_URI} [L,R=301]
 
 # Old multi-page URLs -> sections of the one-page site
 RewriteRule ^teenus(\.html)?/?$ /#checks [R=301,L,NE]
