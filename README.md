@@ -22,6 +22,8 @@ ru/index.html       Same page in Russian
 robots.txt, sitemap.xml, favicon.svg
 assets/css/style.css    All styling + animation system; light only
 assets/js/main.js       Nav, scroll progress, reveal, tabs, timeline, count-up, FAQ, form
+assets/report/          Sample inspection report as PDF (ET/EN/RU), linked from the site
+assets/report/template/ HTML+CSS source of the report — the template for real reports
 ```
 
 Each page has the same sections, in this order, with the same anchor ids in
@@ -38,10 +40,14 @@ the matching section via `.htaccess`.
 | What | Where | Current value |
 |---|---|---|
 | Phone / WhatsApp | every page (`tel:`, `wa.me`, JSON-LD) | `+372 5555 5555` |
-| Email | every page, `data-to` on forms | `info@kodukontroll.ee` |
 | Privacy policy text | `#privacy` on every page | short generic placeholder — review with a lawyer |
+| Inspector name | `assets/report/template/*.html`, signature block | `Ees- ja perekonnanimi` |
 
-Quick find: `grep -rn "5555 5555\|37255555555\|info@kodukontroll.ee" --include=*.html .`
+Quick find: `grep -rn "5555 5555\|37255555555" --include=*.html .`
+
+The contact address everywhere (pages, forms, JSON-LD, report) is
+**info@kodukontroll.ee**. The mailbox itself has to exist on the hosting — see
+*Mailbox* under Deploy.
 
 ## Editing content
 
@@ -69,6 +75,36 @@ All motion is CSS-first with a small JS layer (`assets/js/main.js`):
   accordion with animated height, sliding-fill buttons, active nav underline,
   reading-progress bar at the top.
 - `prefers-reduced-motion: reduce` disables all of it.
+
+## Sample report
+
+The "view a sample report" button in `#report`, the report card next to it and
+the footer link open a PDF in a new tab:
+
+```
+assets/report/kodukontroll-naidisaruanne-et.pdf    (ET page)
+assets/report/kodukontroll-sample-report-en.pdf    (EN page)
+assets/report/kodukontroll-primer-otcheta-ru.pdf   (RU page)
+```
+
+The PDFs are rendered from `assets/report/template/report-{et,en,ru}.html` +
+`report.css`, which is also the layout template for real reports: 6 fixed A4
+pages (cover + summary, scope + location drawing, findings 1–4, 5–8, 9–11 +
+check-point table, requirements + assessment + signature). Copy a template,
+replace the text and swap the grey photo placeholders for `<img>` tags. Each
+`.page` is a fixed A4 box with `overflow: hidden`, so keep each page's content
+within it (open the HTML in a browser to check, or add a page).
+
+Rebuild the PDFs after editing:
+
+```bash
+sh assets/report/template/build.sh
+```
+
+It uses headless Google Chrome (macOS path by default; set `CHROME=` for
+another location). The sample data is illustrative (address, names, numbers
+changed, photos replaced by placeholders); the counts match the numbers shown
+on the site (96 check points, 11 findings: 1 critical, 4 major, 6 cosmetic).
 
 ## Contact form
 
@@ -107,9 +143,24 @@ The repo is pulled into `public_html`; the branch is `main`.
 - SSL: enable the free Let's Encrypt certificate in hPanel → Security → SSL
   once the domain points at the hosting.
 
+### Mailbox
+
+The site sends everything to **info@kodukontroll.ee**, so that mailbox must be
+created on Hostinger: hPanel → Emails → kodukontroll.ee → Create email account
+(`info`). Hostinger adds the MX/SPF records to its DNS zone automatically, but
+that only works once the kodukontroll.ee zone is actually served by Hostinger's
+nameservers (see Domains). Until then, mail to info@kodukontroll.ee bounces.
+
 ### Domains
 
 - kodukontroll.ee is the primary domain of the website in hPanel; its nameservers
   at Zone.ee are `atlas.dns-parking.com` / `hyperion.dns-parking.com`.
-- kodukontroll.com is added as a parked domain in hPanel; `.htaccess` sends any
-  host other than kodukontroll.ee to https://kodukontroll.ee with the same path.
+- kodukontroll.com is added as a parked domain in hPanel; `.htaccess` is meant
+  to send any host other than kodukontroll.ee to https://kodukontroll.ee with
+  the same path. That rule is commented out until .ee resolves — as of
+  2026-09-15 the registry still publishes a DNSSEC DS record for
+  kodukontroll.ee (from the old Zone.ee keys) while the nameservers are
+  Hostinger's, which cannot sign the zone; Hostinger's servers answer REFUSED
+  and validating resolvers fail. Fix at Zone.ee: disable DNSSEC / remove the
+  DS record, then confirm in hPanel that the zone exists, then uncomment the
+  two redirect lines in `.htaccess`.
