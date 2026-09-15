@@ -3,7 +3,8 @@
    Plain CSS, no build step. Light only.
    Titles + logo: Helvetica (system) with Arimo as the web fallback.
    Everything else: Onest (400 text, 500 nav/buttons, 600 labels).
-   Colour rule: red marks a finding, blue marks a check; all else ink.
+   Colour rule: red is reserved for findings (severity, finding numbers,
+   drawing marks). Blue is the one accent everywhere else. Titles are ink.
    Motion: hero word rise, drawing draw-in, scroll reveal,
    tabs, timeline fill, count-up, FAQ accordion. Honors
    prefers-reduced-motion.
@@ -21,12 +22,12 @@
   --rule-2: #C7C7CC;
   --line: #D2D2D7;
   --radius: 14px;
-  --mark: #BC0A00;
-  --mark-on-ink: #F29B90;
+  --mark: #BC0A00;          /* red: findings only — never decoration */
   --check: #17336E;
+  --check-hover: #0E2450;
+  --check-soft: #3E5D99;    /* lighter blue: section standfirsts only */
+  --check-on-ink: #9FB6E4;  /* lighter blue: on dark backgrounds */
   --ink-hover: #3A3A3C;
-  --mark-hover: #960800;
-  --mark-soft: #CF2A1F;   /* lighter red: section standfirsts only */
   --radius-btn: 8px;
   --sans: "Onest", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   /* Titles + logo: real Helvetica where installed (macOS, iOS), Arimo as the
@@ -76,8 +77,8 @@ strong, .strong { font-weight: 600; }
 .lead { font-size: clamp(1.2rem, 1.6vw, 1.45rem); line-height: 1.45; max-width: 48ch; color: var(--ink-2); }
 .dim { color: var(--ink-2); }
 .small { font-size: 1rem; }
-.mark { color: var(--mark); }
-.tx-mark { color: var(--mark); }
+.mark { color: var(--check); }
+.tx-mark { color: var(--check); }
 .tx-check { color: var(--check); }
 .no { font-family: var(--sans-cond); font-size: .82rem; font-weight: 700; letter-spacing: .04em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
@@ -106,16 +107,16 @@ strong, .strong { font-weight: 600; }
 .btn {
   position: relative; overflow: hidden; isolation: isolate;
   display: inline-flex; align-items: center; justify-content: center; min-height: 48px; font-family: var(--sans); font-size: 1.02rem;
-  text-decoration: none; padding: .8rem 1.45rem; border: 1px solid var(--mark); background: var(--mark); color: #fff;
+  text-decoration: none; padding: .8rem 1.45rem; border: 1px solid var(--check); background: var(--check); color: #fff;
   border-radius: var(--radius-btn); cursor: pointer; line-height: 1; font-weight: 600; transition: color .3s, border-color .3s, transform .3s var(--ease);
 }
-.btn::before { content: ""; position: absolute; inset: 0; background: var(--mark-hover); transform: translateY(101%); transition: transform .4s var(--ease); z-index: -1; }
+.btn::before { content: ""; position: absolute; inset: 0; background: var(--check-hover); transform: translateY(101%); transition: transform .4s var(--ease); z-index: -1; }
 .btn:hover::before, .btn:focus-visible::before { transform: translateY(0); }
-.btn:hover { border-color: var(--mark-hover); color: #fff; }
+.btn:hover { border-color: var(--check-hover); color: #fff; }
 .btn:active { transform: scale(.98); }
-.btn--line { background: transparent; color: var(--mark); border-color: var(--mark); }
-.btn--line::before { background: var(--mark); }
-.btn--line:hover { border-color: var(--mark); color: #fff; }
+.btn--line { background: transparent; color: var(--check); border-color: var(--check); }
+.btn--line::before { background: var(--check); }
+.btn--line:hover { border-color: var(--check); color: #fff; }
 .btn--call { color: var(--check); border-color: var(--check); }
 .btn--call::before { background: var(--check); }
 .btn--call:hover { border-color: var(--check); color: #fff; }
@@ -217,7 +218,7 @@ strong, .strong { font-weight: 600; }
 .ticker { background: var(--ink); color: var(--paper); padding: .9rem 0; overflow: hidden; }
 .ticker:hover .ticker__track { animation-play-state: paused; }
 .ticker__track { display: flex; flex-wrap: nowrap; align-items: center; gap: 0 1.5rem; width: max-content; font-family: var(--sans-xcond); font-size: .9rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; animation: tick 95s linear infinite; }
-.ticker__track i { font-style: normal; color: var(--mark-on-ink); }
+.ticker__track i { font-style: normal; color: var(--check-on-ink); }
 
 /* ---------- Severity ---------- */
 .sev { font-family: var(--sans-cond); font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
@@ -241,9 +242,9 @@ strong, .strong { font-weight: 600; }
   .sec.is-current .rail span::after { width: 28px; }
 }
 .sec__head { margin-bottom: clamp(1.8rem, 3vw, 2.8rem); display: grid; gap: 1rem; }
-/* --- Section titles: blue heading, red standfirst (brand kit) --- */
-.sec__head h2, .prose h2, .faq__intro h2 { color: var(--check); }
-.sec__head > .dim, .sec__head > .lead, .faq__intro > .dim { color: var(--mark-soft); }
+/* --- Section titles: ink heading, blue standfirst --- */
+.sec__head h2, .prose h2, .faq__intro h2 { color: var(--ink); }
+.sec__head > .dim, .sec__head > .lead, .faq__intro > .dim { color: var(--check-soft); }
 .sec__head > .dim .strong, .sec__head > .dim b { color: inherit; }
 @media (min-width: 1000px) { .sec__head--split { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 3rem; align-items: end; } }
 .sec__head .lead { max-width: 52ch; }
