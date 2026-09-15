@@ -19,7 +19,7 @@ en/index.html       Same page in English
 ru/index.html       Same page in Russian
 404.html            Not-found page (Estonian)
 .htaccess           HTTPS + www redirect, old-URL redirects, clean URLs, caching, 404
-robots.txt, sitemap.xml, favicon.svg
+robots.txt, sitemap.xml, favicon-*.png, apple-touch-icon.png
 assets/css/style.css    All styling + animation system; light only
 assets/js/main.js       Nav, scroll progress, reveal, tabs, timeline, count-up, FAQ, form
 assets/report/          Sample inspection report as PDF (ET/EN/RU), linked from the site
@@ -117,9 +117,22 @@ the `<form>` an `action` + `method="post"` and remove the submit handler in
 
 ## Design
 
-- Fonts: Newsreader (ET/EN text), Literata (RU text — Newsreader has no
-  Cyrillic), IBM Plex Mono (labels, numbers). Loaded from Google Fonts.
-- Palette: paper, ink and one marker red for findings. Tokens at the top of `style.css`.
+- Font: Onest only, from Google Fonts, all languages (it has native Cyrillic
+  and Latin Extended). 400 for text, 500 for nav and buttons, 600 for uppercase
+  labels/tags/dimensions, 700 for headings, 800 available. Onest has no true
+  italic, so `em` is set in weight 600 instead. The tokens `--sans-head`,
+  `--sans-cond` and `--sans-xcond` all alias `--sans`; they are kept so a
+  second face can be reintroduced in one place.
+- Palette: paper and ink neutrals plus two pencil colours. Red `--mark`
+  (#BC0A00) is used only on findings (numbers, critical tags, markers). Blue
+  `--check` (#17336E) is used only on things that were checked or measured
+  (dimension lines, checkmarks, timeline progress, focus, form success).
+  Everything else is ink. Tokens at the top of `style.css`; the report
+  template mirrors them in `report.css`.
+- Mark: a red ring with a K, inline in the header and report wordmark.
+  Favicon and touch icon: the red-blue pencil illustration (`favicon-16/32/
+  192/512.png`, `apple-touch-icon.png`; source in the client's files).
+  Brand book: see the published artifact "Kodukontroll Brand Book".
 
 ## Local preview
 
