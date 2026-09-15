@@ -4,7 +4,8 @@
    Titles + logo: Helvetica (system) with Arimo as the web fallback.
    Everything else: Onest (400 text, 500 nav/buttons, 600 labels).
    Colour rule: red is reserved for findings (severity, finding numbers,
-   drawing marks). Blue is the one accent everywhere else. Titles are ink.
+   drawing marks). Blue carries the titles and the interactive accents.
+   Section standfirsts sit back in grey.
    Motion: hero word rise, drawing draw-in, scroll reveal,
    tabs, timeline fill, count-up, FAQ accordion. Honors
    prefers-reduced-motion.
@@ -25,8 +26,7 @@
   --mark: #BC0A00;          /* red: findings only — never decoration */
   --check: #17336E;
   --check-hover: #0E2450;
-  --check-soft: #3E5D99;    /* lighter blue: section standfirsts only */
-  --check-on-ink: #9FB6E4;  /* lighter blue: on dark backgrounds */
+  --dim-on-ink: #9A9AA0;    /* grey: on dark backgrounds */
   --ink-hover: #3A3A3C;
   --radius-btn: 8px;
   --sans: "Onest", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -218,7 +218,7 @@ strong, .strong { font-weight: 600; }
 .ticker { background: var(--ink); color: var(--paper); padding: .9rem 0; overflow: hidden; }
 .ticker:hover .ticker__track { animation-play-state: paused; }
 .ticker__track { display: flex; flex-wrap: nowrap; align-items: center; gap: 0 1.5rem; width: max-content; font-family: var(--sans-xcond); font-size: .9rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; animation: tick 95s linear infinite; }
-.ticker__track i { font-style: normal; color: var(--check-on-ink); }
+.ticker__track i { font-style: normal; color: var(--dim-on-ink); }
 
 /* ---------- Severity ---------- */
 .sev { font-family: var(--sans-cond); font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
@@ -242,9 +242,9 @@ strong, .strong { font-weight: 600; }
   .sec.is-current .rail span::after { width: 28px; }
 }
 .sec__head { margin-bottom: clamp(1.8rem, 3vw, 2.8rem); display: grid; gap: 1rem; }
-/* --- Section titles: ink heading, blue standfirst --- */
-.sec__head h2, .prose h2, .faq__intro h2 { color: var(--ink); }
-.sec__head > .dim, .sec__head > .lead, .faq__intro > .dim { color: var(--check-soft); }
+/* --- Titles: blue heading, grey standfirst --- */
+h1, .sec__head h2, .prose h2, .faq__intro h2 { color: var(--check); }
+.sec__head > .dim, .sec__head > .lead, .faq__intro > .dim { color: var(--ink-3); }
 .sec__head > .dim .strong, .sec__head > .dim b { color: inherit; }
 @media (min-width: 1000px) { .sec__head--split { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 3rem; align-items: end; } }
 .sec__head .lead { max-width: 52ch; }
