@@ -23,7 +23,8 @@ robots.txt, sitemap.xml, favicon-*.png, apple-touch-icon.png
 assets/css/style.css    All styling + animation system; light only
 assets/js/main.js       Nav, scroll progress, reveal, tabs, timeline, count-up, FAQ, form
 assets/report/          Sample inspection report as PDF (ET/EN/RU), linked from the site
-assets/report/template/ HTML+CSS source of the report — the template for real reports
+assets/report/template/ HTML+CSS source of the report — the template for real reports,
+                        plus koogi-ulevaatus.jpg (the object photo on page 2)
 ```
 
 Each page has the same sections, in this order, with the same anchor ids in
@@ -39,11 +40,11 @@ the matching section via `.htaccess`.
 
 | What | Where | Current value |
 |---|---|---|
-| Phone / WhatsApp | every page (`tel:`, `wa.me`, JSON-LD) | `+372 5555 5555` |
 | Privacy policy text | `#privacy` on every page | short generic placeholder — review with a lawyer |
 | Inspector name | `assets/report/template/*.html`, signature block | `Ees- ja perekonnanimi` |
 
-Quick find: `grep -rn "5555 5555\|37255555555" --include=*.html .`
+The phone number is live: **+372 5747 6331**, on every page as `tel:`, `wa.me`
+and JSON-LD. To change it: `grep -rn "5747 6331\|57476331" --include=*.html .`
 
 The contact address everywhere (pages, forms, JSON-LD, report) is
 **info@kodukontroll.ee**. The mailbox itself has to exist on the hosting — see
@@ -89,9 +90,10 @@ assets/report/kodukontroll-primer-otcheta-ru.pdf   (RU page)
 
 The PDFs are rendered from `assets/report/template/report-{et,en,ru}.html` +
 `report.css`, which is also the layout template for real reports: 6 fixed A4
-pages (cover + summary, scope + location drawing, findings 1–4, 5–8, 9–11 +
-check-point table, requirements + assessment + signature). Copy a template,
-replace the text and swap the grey photo placeholders for `<img>` tags. Each
+pages (cover + summary, scope + object photo and location drawing, findings
+1–4, 5–8, 9–11 + check-point table, requirements + assessment + signature).
+Copy a template, replace the text, swap the object photo on page 2 and the
+grey photo placeholders for `<img>` tags. Each
 `.page` is a fixed A4 box with `overflow: hidden`, so keep each page's content
 within it (open the HTML in a browser to check, or add a page).
 
@@ -101,10 +103,33 @@ Rebuild the PDFs after editing:
 sh assets/report/template/build.sh
 ```
 
-It uses headless Google Chrome (macOS path by default; set `CHROME=` for
-another location). The sample data is illustrative (address, names, numbers
-changed, photos replaced by placeholders); the counts match the numbers shown
-on the site (96 check points, 11 findings: 1 critical, 4 major, 6 cosmetic).
+**The published sample is gated.** Page 1 is the real cover; every page after
+it ships as a blurred image with a notice pointing at the form on the site, so
+a visitor sees the structure and has to ask for the readable version. That step
+is `make-preview.py`, which build.sh calls: it rasterises the pages after the
+cover at 200 ppi, blurs them (the running header and footer strips are pasted
+back sharp), and re-assembles them into the PDF. Blurring in the browser
+instead also works, but Chrome rasterises every filtered layer at 300 ppi
+lossless and the PDF grows from 0.8 MB to 8.5 MB.
+
+To render a complete, readable report — which is what you want when producing a
+real report from a template — skip the gate:
+
+```bash
+FULL=1 sh assets/report/template/build.sh
+```
+
+Both use headless Google Chrome (macOS path by default; set `CHROME=` for
+another location); the gated build also needs poppler's `pdftoppm` and Pillow.
+The sample data is illustrative (address, names, numbers
+changed, finding photos replaced by placeholders — the general view on page 2
+is a real object photo); the counts match the numbers shown on the site
+(96 check points, 11 findings: 1 critical, 4 major, 6 cosmetic).
+
+The elevation drawing on page 2 shares its row with the photo, so it renders
+at about 41% of the sheet width. Its annotations (dimension text, marker
+circles and numbers, stroke widths) are drawn 1.7x larger in SVG user units to
+keep their printed size — scale both together if that column ever changes.
 
 ## Contact form
 
@@ -123,16 +148,19 @@ the `<form>` an `action` + `method="post"` and remove the submit handler in
   italic, so `em` is set in weight 600 instead. The tokens `--sans-head`,
   `--sans-cond` and `--sans-xcond` all alias `--sans`; they are kept so a
   second face can be reintroduced in one place.
-- Palette: paper and ink neutrals plus two pencil colours. Red `--mark`
-  (#BC0A00) is used only on findings (numbers, critical tags, markers). Blue
-  `--check` (#17336E) is used only on things that were checked or measured
-  (dimension lines, checkmarks, timeline progress, focus, form success).
-  Everything else is ink. Tokens at the top of `style.css`; the report
+- Palette: greyscale only — paper and ink neutrals, no accent hue. Emphasis
+  is carried by ink weight: `--mark` (#1D1D1F) on findings and primary
+  actions (numbers, critical tags, markers, buttons), `--check` (#6E6E73) on
+  things that were checked or measured (dimension lines, checkmarks, timeline
+  progress, form success). The token names are kept so a single accent could
+  be reintroduced in one place. Tokens at the top of `style.css`; the report
   template mirrors them in `report.css`.
-- Mark: a red ring with a K, inline in the header and report wordmark.
-  Favicon and touch icon: the red-blue pencil illustration (`favicon-16/32/
-  192/512.png`, `apple-touch-icon.png`; source in the client's files).
+- Mark: a grey ring with a K, inline in the report wordmark. Favicon and touch
+  icon: a white Helvetica K on an ink tile (`favicon-16/32/192/512.png`,
+  `apple-touch-icon.png`), regenerated with `python3 assets/img/make-favicon.py`.
   Brand book: see the published artifact "Kodukontroll Brand Book".
+- Language switcher: text codes (ET / EN / RU), not flags — the page carries
+  no colour.
 
 ## Local preview
 

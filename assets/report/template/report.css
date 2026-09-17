@@ -14,8 +14,8 @@
   --ink-3: #6E6E73;
   --rule: #E5E5EA;
   --rule-2: #C7C7CC;
-  --mark: #BC0A00;
-  --check: #17336E;
+  --mark: #1D1D1F;
+  --check: #6E6E73;
   --sans: "Onest", Helvetica, Arial, sans-serif;
   --sans-head: var(--sans);
   --sans-cond: var(--sans);
@@ -57,6 +57,22 @@ body {
 
 .ph { display: flex; justify-content: space-between; gap: 6mm; padding-bottom: 3mm; border-bottom: 1px solid var(--ink); margin-bottom: 7mm; }
 .ph .meta { white-space: nowrap; }
+/* ---------- Gated preview ----------
+   Only for the published sample: build.sh renders the report, blurs every page
+   after the cover into an image and re-assembles them with this notice on top.
+   Real reports are built with FULL=1 and never see these rules. */
+.page--preview { padding: 0; }
+.page__shot { width: 210mm; height: 296.8mm; display: block; }
+.lock { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 var(--pad-x); }
+.lock__card {
+  width: 122mm; background: var(--paper); border: 1px solid var(--ink);
+  padding: 9mm 11mm 8mm; display: grid; gap: 3.2mm; justify-items: center; text-align: center;
+  box-shadow: 0 3mm 12mm rgba(29, 29, 31, .14);
+}
+.lock__mark { width: 11mm; height: 11mm; color: var(--ink); }
+.lock__title { margin: 0; font-family: var(--sans-head); font-size: 14pt; font-weight: 700; letter-spacing: -.02em; }
+.lock__text { margin: 0; max-width: 92mm; color: var(--ink-2); font-size: 10pt; line-height: 1.5; }
+
 .pf { position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: 9mm; display: flex; justify-content: space-between; gap: 6mm; padding-top: 2.5mm; border-top: 1px solid var(--rule); }
 
 /* ---------- Type ---------- */
@@ -135,15 +151,21 @@ a { color: inherit; text-decoration: none; }
 .ck svg { width: 3.6mm; height: 3.6mm; margin-top: .9mm; stroke: var(--check); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---------- Location drawing ---------- */
-.plan { border: 1px solid var(--ink); background: #FBFAF7 linear-gradient(var(--tint) 1px, transparent 1px) 0 0 / 6mm 6mm, #FBFAF7 linear-gradient(90deg, var(--tint) 1px, transparent 1px) 0 0 / 6mm 6mm; padding: 5mm 5mm 3mm; }
+/* Section 02: general view of the object, then the elevation with the finding markers. */
+.loc { display: grid; grid-template-columns: 65mm minmax(0, 1fr); gap: 5mm; align-items: start; }
+.shot { margin: 0; }
+.shot img { display: block; width: 100%; height: auto; border: 1px solid var(--ink); }
+.shot figcaption { display: grid; gap: .6mm; margin-top: 2.5mm; }
+.shot figcaption b { color: var(--ink); font-weight: 600; }
+.plan { margin: 0; border: 1px solid var(--ink); background: #FBFAF7 linear-gradient(var(--tint) 1px, transparent 1px) 0 0 / 6mm 6mm, #FBFAF7 linear-gradient(90deg, var(--tint) 1px, transparent 1px) 0 0 / 6mm 6mm; padding: 4mm 4mm 2.5mm; }
 .plan svg { width: 100%; height: auto; display: block; overflow: visible; }
-.plan__cap { display: flex; justify-content: space-between; gap: 4mm; margin-top: 2.5mm; }
-.mk circle { fill: #fff; stroke-width: 1.3; }
-.mk text { font-family: var(--sans-cond); font-size: 11px; font-weight: 700; text-anchor: middle; }
+.plan__cap { display: grid; gap: .6mm; margin-top: 2.5mm; }
+.mk circle { fill: #fff; stroke-width: 2.2; }
+.mk text { font-family: var(--sans-cond); font-size: 19px; font-weight: 700; text-anchor: middle; }
 .mk--crit circle { stroke: var(--mark); } .mk--crit text { fill: var(--mark); }
 .mk--maj circle { stroke: var(--ink); } .mk--maj text { fill: var(--ink); }
 .mk--cos circle { stroke: var(--ink-3); } .mk--cos text { fill: var(--ink-3); }
-.mk line { stroke-dasharray: 2 3; stroke-width: 1; }
+.mk line { stroke-dasharray: 3.4 5.1; stroke-width: 1.7; }
 .mk--crit line { stroke: var(--mark); } .mk--maj line { stroke: var(--ink); } .mk--cos line { stroke: var(--ink-3); }
 
 /* ---------- Findings ---------- */
