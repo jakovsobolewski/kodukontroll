@@ -13,12 +13,14 @@ exactly that. Re-run it after editing prices, service names or FAQ entries,
 otherwise the structured data drifts away from what a visitor sees - which is
 what Google and the AI crawlers penalise.
 """
+import datetime
 import html
 import json
 import pathlib
 import re
 
 SITE = "https://kodukontroll.ee"
+TODAY = datetime.date.today().isoformat()
 
 PAGES = {
     "index.html": dict(url=SITE + "/", lang="et", og="/assets/img/og-et.png"),
@@ -28,6 +30,29 @@ PAGES = {
 
 # The one thing that cannot be read off the page: which price tier is which.
 TIER_IDS = ["express", "standard", "complex", "recheck"]
+
+# Topics the business is an authority on, in the words its audience searches.
+# These drive entity association in AI answer engines; keep them to subjects
+# the pages genuinely cover.
+KNOWS_ABOUT = {
+    "et": ["ehitustööde vastuvõtmine", "üleandmis-vastuvõtuakt", "remonditööde kvaliteedikontroll",
+           "sisseehitatud mööbli paigalduse kontroll", "köögimööbli paigaldus",
+           "kodutehnika paigalduse kontroll", "santehniliste tööde ülevaatus",
+           "elektritööde nähtava kvaliteedi kontroll", "puuduste fikseerimine ja aruanne",
+           "korduskontroll pärast puuduste kõrvaldamist", "sõltumatu ehituskontroll Tallinnas"],
+    "en": ["construction work acceptance", "handover and acceptance act",
+           "renovation quality inspection", "built-in furniture installation inspection",
+           "kitchen installation inspection", "appliance installation inspection",
+           "plumbing installation inspection", "visible electrical installation quality",
+           "defect list and inspection report", "re-inspection after remedial work",
+           "independent building inspection in Tallinn"],
+    "ru": ["приёмка строительных и ремонтных работ", "акт приёмки-передачи",
+           "контроль качества ремонта", "проверка установки встроенной мебели",
+           "установка кухонной мебели", "проверка подключения бытовой техники",
+           "проверка сантехнических работ", "видимое качество электромонтажа",
+           "фиксация недостатков и отчёт", "повторная проверка после устранения недостатков",
+           "независимый строительный контроль в Таллинне"],
+}
 
 
 def text(fragment):
@@ -53,6 +78,16 @@ def price_tiers(src):
 
 def check_areas(src):
     return [text(t) for t in re.findall(r'<span class="tab__t">(.*?)</span>', src, re.S)]
+
+
+def steps(src):
+    block = re.search(r'<ol class="tl">.*?</ol>', src, re.S).group(0)
+    out = []
+    for li in re.findall(r'<li class="tl__step".*?</li>', block, re.S):
+        name = text(re.search(r"<h3>(.*?)</h3>", li, re.S).group(1))
+        body = text(re.search(r"<p>(.*?)</p>", li, re.S).group(1))
+        out.append((name, body))
+    return out
 
 
 def faq(src):
@@ -107,6 +142,15 @@ def graph(path, page):
         "currenciesAccepted": "EUR",
         "priceRange": "99-499 EUR",
         "sameAs": ["https://wa.me/37257476331"],
+        "knowsAbout": KNOWS_ABOUT[lang],
+        "contactPoint": [{
+            "@type": "ContactPoint",
+            "telephone": "+372 5747 6331",
+            "email": "info@kodukontroll.ee",
+            "contactType": "customer service",
+            "areaServed": "EE",
+            "availableLanguage": ["et", "en", "ru"],
+        }],
         "hasOfferCatalog": {"@id": url + "#catalog"},
     }
 
@@ -159,6 +203,22 @@ def graph(path, page):
         "about": {"@id": SITE + "/#organization"},
         "primaryImageOfPage": {"@type": "ImageObject", "url": SITE + page["og"],
                                "width": 1200, "height": 630},
+        "datePublished": "2026-09-15",
+        "dateModified": TODAY,
+        "mainEntity": {"@id": SITE + "/#service"},
+        "hasPart": [{"@id": url + "#faq"}, {"@id": url + "#process"}],
+    }
+
+    howto = {
+        "@type": "HowTo",
+        "@id": url + "#process",
+        "name": text(re.search(r'id="process">.*?<h2>(.*?)</h2>', src, re.S).group(1)),
+        "inLanguage": lang,
+        "isPartOf": {"@id": url + "#webpage"},
+        "estimatedCost": {"@type": "MonetaryAmount", "currency": "EUR",
+                          "minValue": min(int(a) for _, _, a, _ in tiers)},
+        "step": [{"@type": "HowToStep", "position": i + 1, "name": n, "text": t,
+                  "url": url + "#process"} for i, (n, t) in enumerate(steps(src))],
     }
 
     faqpage = {
@@ -169,7 +229,7 @@ def graph(path, page):
     }
 
     return {"@context": "https://schema.org",
-            "@graph": [org, website, webpage, service, catalog, faqpage]}
+            "@graph": [org, website, webpage, service, catalog, howto, faqpage]}
 
 
 START, END = "<!-- jsonld:start -->", "<!-- jsonld:end -->"
@@ -185,4 +245,6 @@ for path, page in PAGES.items():
         src = re.sub(r'<script type="application/ld\+json">.*?</script>', lambda _: block, src, count=1, flags=re.S)
     p.write_text(src, encoding="utf-8")
     g = graph(path, page)
-    print("%-16s offers=%d faq=%d" % (path, len(g["@graph"][4]["itemListElement"]), len(g["@graph"][5]["mainEntity"])))
+    print("%-16s offers=%d steps=%d faq=%d" % (
+        path, len(g["@graph"][4]["itemListElement"]),
+        len(g["@graph"][5]["step"]), len(g["@graph"][6]["mainEntity"])))

@@ -25,6 +25,9 @@ assets/js/main.js       Nav, scroll progress, reveal, tabs, timeline, count-up, 
 assets/report/          Sample inspection report as PDF (ET/EN/RU), linked from the site
 assets/report/template/ HTML+CSS source of the report — the template for real reports,
                         plus koogi-ulevaatus.jpg (the object photo on page 2)
+assets/seo/build-jsonld.py  Regenerates the JSON-LD of all three pages from their copy
+assets/img/make-og.py       Draws the share cards og-{et,en,ru}.png
+llms.txt                Plain-text brief for AI answer engines
 ```
 
 Each page has the same sections, in this order, with the same anchor ids in
@@ -61,6 +64,39 @@ The three HTML files are hand-editable. If you change structure, edit all
 three so the anchors and section order stay identical. Prices live in the
 `#pricing` cards (`data-count` drives the count-up animation — keep it equal
 to the visible number).
+
+## SEO and AI visibility
+
+Strategy doc: the Notion page *SEO Strategy* under SBLW / Businesses / kodukontroll.
+
+**Structured data is generated, not hand-written.** Each page carries a
+schema.org `@graph` between the markers `<!-- jsonld:start -->` and
+`<!-- jsonld:end -->` in `<head>`: the business, the site, the page, the
+service, the four price tiers as an `OfferCatalog`, the five process steps as a
+`HowTo`, and all fourteen FAQ entries as a `FAQPage`. It is built by reading the
+page's own visible copy, so **after changing a price, a service name, a process
+step or a FAQ answer, re-run**:
+
+```bash
+python3 assets/seo/build-jsonld.py
+```
+
+Otherwise the markup claims something the visitor does not see, which is exactly
+what search engines and AI crawlers discount. The script asserts nothing the
+page does not state — VAT treatment, for instance, is deliberately left out of
+the price markup because the pricing section does not mention it.
+
+`robots.txt` names the AI answer engines explicitly (GPTBot, OAI-SearchBot,
+ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended,
+Applebot-Extended and the rest) and allows them. `llms.txt` is the plain-text
+brief those crawlers read: what the service is, the six areas, the two levels,
+the prices, what the report contains, and — importantly — the limits, so a model
+summarising Kodukontroll does not promise a court-grade expertise. Keep
+`llms.txt` in step with the pages by hand; it is prose, not generated.
+
+Share cards are regenerated with `python3 assets/img/make-og.py` (greyscale, same
+tokens as the site). `404.html` is `noindex` and deliberately carries no
+canonical and no hreflang.
 
 ## Animations
 
