@@ -97,6 +97,11 @@ grey photo placeholders for `<img>` tags. Each
 `.page` is a fixed A4 box with `overflow: hidden`, so keep each page's content
 within it (open the HTML in a browser to check, or add a page).
 
+Hostinger's CDN caches files at fixed URLs for 7 days, so the favicons and the
+sample-report PDFs carry a `?v=<content hash>` in the pages that link them, the
+same way `style.css` does. Bump those tokens whenever you replace one of those
+files, or the edge keeps serving the old copy to visitors.
+
 Rebuild the PDFs after editing:
 
 ```bash
