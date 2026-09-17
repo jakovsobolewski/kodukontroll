@@ -3,30 +3,33 @@
    Plain CSS, no build step. Light only.
    Titles + logo: Helvetica (system) with Arimo as the web fallback.
    Everything else: Onest (400 text, 500 nav/buttons, 600 labels).
-   Colour rule: red marks a finding, blue marks a check; all else ink.
+   Colour rule: greyscale only. Ink weight carries the emphasis —
+   near-black for findings and actions, mid grey for checks.
    Motion: hero word rise, drawing draw-in, scroll reveal,
    tabs, timeline fill, count-up, FAQ accordion. Honors
    prefers-reduced-motion.
    ============================================================ */
 
 :root {
-  --paper: #FFFFFF;
+  /* Warm paper ground, white sheets on top of it: the cards, the drawing and
+     the report preview lift off the page instead of dissolving into it. */
+  --paper: #F8F6F2;
   --sheet: #FFFFFF;
-  --tint: #F5F5F7;
-  --grid: #E9E9EE;
+  --tint: #F0EDE6;
+  --grid: #E4E0D6;
   --ink: #1D1D1F;
-  --ink-2: #48484A;
-  --ink-3: #6E6E73;
-  --rule: #E5E5EA;
-  --rule-2: #C7C7CC;
-  --line: #D2D2D7;
+  --ink-2: #4A4843;
+  --ink-3: #63635E;
+  --rule: #E5E1D8;
+  --rule-2: #C6C1B6;
+  --line: #DBD6CB;
   --radius: 14px;
-  --mark: #BC0A00;
-  --mark-on-ink: #F29B90;
-  --check: #17336E;
+  --mark: #1D1D1F;
+  --mark-on-ink: #C6C1B6;
+  --check: #63635E;
   --ink-hover: #3A3A3C;
-  --mark-hover: #960800;
-  --mark-soft: #CF2A1F;   /* lighter red: section standfirsts only */
+  --mark-hover: #4A4843;
+  --mark-soft: #63635E;   /* lighter grey: section standfirsts only */
   --radius-btn: 8px;
   --sans: "Onest", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   /* Titles + logo: real Helvetica where installed (macOS, iOS), Arimo as the
@@ -64,7 +67,7 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -.03em; max-width: 2
 h3 { font-size: 1.4rem; line-height: 1.2; }
 em { font-style: normal; font-weight: 600; }
 strong, .strong { font-weight: 600; }
-:focus-visible { outline: 2px solid var(--check); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 ::selection { background: var(--ink); color: var(--paper); }
 
 .skip { position: absolute; left: -999px; top: 8px; z-index: 100; background: var(--ink); color: var(--paper); padding: .5rem .8rem; }
@@ -141,13 +144,12 @@ strong, .strong { font-weight: 600; }
 .nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease); }
 .nav a:hover::after, .nav a.is-active::after { transform: scaleX(1); transform-origin: left; }
 .nav a.is-active::after { background: var(--ink); }
-.nav__lang { display: inline-flex; align-items: center; padding: .3rem 0; line-height: 0; }
-.nav__lang svg { width: 30px; height: 20px; display: block; border-radius: 3px; position: relative; top: -1px; transition: transform .25s var(--ease); }
-.nav__lang:hover svg, .nav__lang:focus-visible svg { transform: scale(1.06); }
+.nav__lang { display: inline-flex; align-items: center; padding: .3rem .4rem; font-size: .78rem; font-weight: 600; letter-spacing: .08em; color: var(--ink-3); text-decoration: none; transition: color .25s; }
+.nav__lang:hover, .nav__lang:focus-visible { color: var(--ink); }
 .nav a.nav__lang::after { display: none; }
 .nav li:has(.nav__lang) { display: flex; align-items: center; position: relative; padding-left: 1rem; }
 .nav li:has(.nav__lang)::before { content: ""; position: absolute; left: 0; top: 50%; width: 1px; height: 20px; margin-top: -11px; background: var(--rule-2); }
-.nav li:has(.nav__lang) + li:has(.nav__lang) { margin-left: -.75rem; padding-left: 0; }
+.nav li:has(.nav__lang) + li:has(.nav__lang) { margin-left: -.5rem; padding-left: 0; }
 .nav li:has(.nav__lang) + li:has(.nav__lang)::before { display: none; }
 .nav-toggle { display: none; font-family: var(--sans); font-size: 1rem; font-weight: 500; min-height: 44px; background: none; border: 1px solid var(--rule-2); border-radius: var(--radius-btn); padding: .55rem .9rem; color: var(--ink); cursor: pointer; }
 .nav__mob { display: none; }
@@ -156,7 +158,6 @@ strong, .strong { font-weight: 600; }
   .nav-toggle { display: inline-block; }
   .nav__mob { display: inline-flex; gap: .35rem; margin-right: .35rem; }
   .nav__mob a { padding: 0 .4rem; min-height: 44px; display: inline-flex; align-items: center; }
-  .nav__mob a svg { width: 30px; height: 20px; border-radius: 3px; }
   .nav ul li:has(.nav__lang) { display: none; }
   .nav ul { display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--tint); border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 0; padding: .5rem var(--gut) 1rem; z-index: 40; }
   .nav ul.is-open { display: flex; animation: fadeUp .3s var(--ease); }
@@ -241,8 +242,8 @@ strong, .strong { font-weight: 600; }
   .sec.is-current .rail span::after { width: 28px; }
 }
 .sec__head { margin-bottom: clamp(1.8rem, 3vw, 2.8rem); display: grid; gap: 1rem; }
-/* --- Section titles: blue heading, red standfirst (brand kit) --- */
-.sec__head h2, .prose h2, .faq__intro h2 { color: var(--check); }
+/* --- Section titles: ink heading, grey standfirst (brand kit) --- */
+.sec__head h2, .prose h2, .faq__intro h2 { color: var(--ink); }
 .sec__head > .dim, .sec__head > .lead, .faq__intro > .dim { color: var(--mark-soft); }
 .sec__head > .dim .strong, .sec__head > .dim b { color: inherit; }
 @media (min-width: 1000px) { .sec__head--split { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 3rem; align-items: end; } }
@@ -250,26 +251,10 @@ strong, .strong { font-weight: 600; }
 .two { display: grid; gap: 2.5rem; align-items: start; }
 @media (min-width: 900px) { .two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; } }
 @media (min-width: 900px) { .two--wide { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); } .two--faq { grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); } .two--story { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); } }
+/* Statement + CTA beside the checklist; centred so the short column does not
+   leave the bottom half of the row empty. */
 .aside .lead { font-size: 1.25rem; }
-@media (min-width: 900px) {
-  .aside--wide { grid-column: 1 / -1; margin-top: -1rem; display: flex; align-items: center; gap: 3rem; }
-  .aside--wide .lead { flex: 1 1 auto; max-width: 62ch; margin: 0; }
-  .aside--wide > p:last-child { flex: 0 0 auto; margin: 0; }
-}
-
-/* Project photo above the aside copy */
-.shot { position: relative; margin: 0 0 1.5rem; }
-.shot figcaption {
-  position: absolute; left: .75rem; bottom: .75rem; padding: .4rem .7rem;
-  background: color-mix(in srgb, var(--paper) 90%, transparent);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border-radius: 6px; color: var(--ink);
-  font-family: var(--sans-cond); font-size: .76rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; line-height: 1.2;
-}
-.shot img {
-  display: block; width: 100%; height: auto;
-  border: 1px solid var(--line); border-radius: var(--radius); background: var(--tint);
-}
+@media (min-width: 900px) { .aside { align-self: center; } }
 
 /* Checklists with drawn checkmark */
 .ck { list-style: none; display: grid; }
