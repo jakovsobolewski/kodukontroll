@@ -121,7 +121,15 @@ while the final payment is outstanding.
 - Kodukontroll does not itself remedy the defects it finds. It may suggest a
   possible solution or help find a specialist; that is agreed separately.
 
-## Estonian and Russian terms used for this service
+## Terms used for this service
+
+English: independent inspection · acceptance inspection · handover inspection ·
+snagging survey / snagging list (the usual British and Irish term for exactly
+this: recording the defects in finished work before final acceptance) ·
+post-renovation defect inspection · kitchen and built-in furniture installation
+inspection · appliance installation check.
+
+Estonian and Russian equivalents:
 
 Estonian: sõltumatu kontroll · ehitustööde vastuvõtmine · vastuvõtuakt ·
 remonditööde ülevaatus · köögimööbli paigalduse kontroll · kodutehnika
