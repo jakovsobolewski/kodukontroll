@@ -1,3 +1,73 @@
+# kodukontroll.ee
+# Everything here is public marketing copy. Search crawlers and AI answer
+# engines are both welcome: being quoted in an AI answer is how a large share
+# of this audience now finds an inspector.
+
 User-agent: *
 Allow: /
+Disallow: /404.html
+
+# --- Search engines -------------------------------------------------------
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# ~9% of Estonian searches, almost all of them Russian-language (/ru/).
+User-agent: YandexBot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# --- AI answer engines and their training crawlers ------------------------
+# Google AI Overviews / Gemini grounding
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI: training, search index, and live retrieval for a user's question
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
 Sitemap: https://kodukontroll.ee/sitemap.xml
