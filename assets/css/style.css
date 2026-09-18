@@ -302,6 +302,9 @@ strong, .strong { font-weight: 600; }
 .rcard__open i svg { width: 12px; height: 12px; display: block; }
 .rcard:hover .rcard__open, .rcard:focus-visible .rcard__open { background: var(--ink-hover); }
 .rcard:hover .rcard__open i { transform: translate(2px, -2px); }
+.rcard--static { transition: none; }
+.rcard--static:hover { transform: none; box-shadow: none; }
+.rcard--static .rcard__open { justify-content: flex-start; }
 .actions .meta { flex-basis: 100%; }
 
 /* ---------- Timeline ---------- */
@@ -380,6 +383,9 @@ strong, .strong { font-weight: 600; }
 
 /* ---------- Contact / forms ---------- */
 .form { display: grid; gap: 1.5rem; max-width: 640px; }
+.form--compact { gap: 1.1rem; max-width: 34rem; margin-top: 2.25rem; padding-top: 1.75rem; border-top: 1px solid var(--rule); }
+.form__head { display: grid; gap: .35rem; }
+.form__head .dim { max-width: 44ch; }
 .form__row { display: grid; gap: 1.5rem; }
 @media (min-width: 640px) { .form__row { grid-template-columns: 1fr 1fr; } }
 .field { display: grid; gap: .35rem; position: relative; }

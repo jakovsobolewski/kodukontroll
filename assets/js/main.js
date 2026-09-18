@@ -199,9 +199,9 @@
     });
   });
 
-  /* ---- Contact form: prefilled mailto (no backend). Labels come from the DOM, so it works in every language. ---- */
-  var form = d.getElementById('contact-form');
-  if (form) {
+  /* ---- Mailto forms (no backend): the contact request and the sample-report request.
+         Labels come from the DOM, so this works in every language. ---- */
+  [].slice.call(d.querySelectorAll('form[data-to]')).forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var to = form.getAttribute('data-to') || 'info@kodukontroll.ee';
@@ -216,10 +216,10 @@
       });
       var addr = (form.querySelector('[name="address"]') || {}).value;
       w.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject + (addr ? ' — ' + addr : '')) + '&body=' + encodeURIComponent(lines.join('\n'));
-      var status = d.getElementById('form-status');
+      var status = form.querySelector('.form-status');
       if (status) status.classList.add('is-visible');
     });
-  }
+  });
 
   /* ---- Footer year ---- */
   var y = d.getElementById('year');

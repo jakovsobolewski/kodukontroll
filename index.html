@@ -172,14 +172,23 @@
         <div>
           <div class="sec__head" data-reveal><h2>Mida te saate</h2><p class="dim">Mitte lihtsalt spetsialisti arvamus, vaid tööriist töövõtjaga suhtlemiseks.</p></div>
           <p class="dim" data-reveal style="--i:1">Kui olulisi puudusi ei leita, kajastub ka see aruandes. Saate töö vastu võtta suurema kindlusega, mitte ainult tegija sõnade „nii peabki olema“ põhjal.</p>
-          <p class="actions" data-reveal style="--i:2"><a class="btn btn--line" href="/assets/report/kodukontroll-naidisaruanne-et.pdf?v=dc2d017b" target="_blank" rel="noopener"><span>Vaata aruande näidist</span></a><span class="meta">PDF · 6 lk · eelvaade · avaneb uues aknas</span></p>
+          <form class="form form--compact" id="report-form" data-to="info@kodukontroll.ee" data-subject="Aruande näidise päring" data-reveal style="--i:2">
+            <div class="form__head"><p class="meta">Küsi näidisaruanne</p><p class="dim">Täitke vorm ja saadame teile täismahus näidisaruande e-postiga.</p></div>
+            <div class="form__row">
+              <div class="field"><label for="r-name">Nimi</label><input id="r-name" name="name" type="text" autocomplete="name" required></div>
+              <div class="field"><label for="r-email">E-post</label><input id="r-email" name="email" type="email" autocomplete="email" required></div>
+            </div>
+            <p class="form__note">Andmeid kasutame ainult teie päringule vastamiseks — vt <a href="#privacy">privaatsuspoliitikat</a>.</p>
+            <p class="form-status" role="status">Päring on ette valmistatud. Kui e-posti programm ei avanenud, kirjutage otse aadressile info@kodukontroll.ee.</p>
+            <div><button class="btn" type="submit"><span>Saada mulle näidis</span></button></div>
+          </form>
         </div>
-        <a class="rcard" href="/assets/report/kodukontroll-naidisaruanne-et.pdf?v=dc2d017b" target="_blank" rel="noopener" aria-label="Ava aruande näidis (PDF)" data-reveal style="--i:1">
+        <div class="rcard rcard--static" data-reveal style="--i:1">
           <div class="rcard__head"><span class="meta"><b>Aruanne</b> · nr 0417 · köök ja tehnika</span><span class="meta">Pärast kontrolli saate:</span></div>
           <ul class="ck rcard__list"><li style="--i:0"><svg class="ck__mark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10.5l4 4 8-9" pathLength="1"/></svg><span>struktureeritud loetelu tuvastatud puudustest</span></li><li style="--i:1"><svg class="ck__mark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10.5l4 4 8-9" pathLength="1"/></svg><span>fotod probleemsetest kohtadest</span></li><li style="--i:2"><svg class="ck__mark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10.5l4 4 8-9" pathLength="1"/></svg><span>iga märkuse arusaadava kirjelduse</span></li><li style="--i:3"><svg class="ck__mark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10.5l4 4 8-9" pathLength="1"/></svg><span>märkuste liigituse tähtsuse järgi</span></li><li style="--i:4"><svg class="ck__mark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10.5l4 4 8-9" pathLength="1"/></svg><span>soovitused kõrvaldamiseks</span></li><li style="--i:5"><svg class="ck__mark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10.5l4 4 8-9" pathLength="1"/></svg><span>küsimuste ja nõuete loetelu töövõtjale</span></li><li style="--i:6"><svg class="ck__mark" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10.5l4 4 8-9" pathLength="1"/></svg><span>üldise hinnangu tehtud ülevaatuse piires</span></li></ul>
           <div class="rcard__foot"><span class="meta">Kriitilisi<br><b>1</b></span><span class="meta">Olulisi<br><b>4</b></span><span class="meta">Kosmeetilisi<br><b>6</b></span><span class="meta">Korras<br><b>85</b></span></div>
-        <span class="rcard__open meta">Ava näidisaruanne (PDF) <i aria-hidden="true"><svg viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 9.5l7-7M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></i></span>
-        </a>
+        <span class="rcard__open meta">Näidisaruanne · 6 lk · saadame e-postiga</span>
+        </div>
       </div>
     </div>
   </section>
@@ -284,7 +293,7 @@
   <div class="container">
     <div class="foot__grid">
       <div><a class="brand" href="/"><span class="brand__name">Kodukontroll</span></a><p>Kontrollime enne, kui te töö vastu võtate.</p></div>
-      <div><p class="meta">Teenus</p><ul><li><a href="#checks">Mida kontrollime</a></li><li><a href="#pricing">Hinnad</a></li><li><a href="#process">Kuidas toimub</a></li><li><a href="/assets/report/kodukontroll-naidisaruanne-et.pdf?v=dc2d017b" target="_blank" rel="noopener">Aruande näidis (PDF)</a></li><li><a href="#faq">Küsimused</a></li></ul></div>
+      <div><p class="meta">Teenus</p><ul><li><a href="#checks">Mida kontrollime</a></li><li><a href="#pricing">Hinnad</a></li><li><a href="#process">Kuidas toimub</a></li><li><a href="#report">Aruande näidis</a></li><li><a href="#faq">Küsimused</a></li></ul></div>
       <div><p class="meta">Ettevõte</p><ul><li><a href="#why">Miks Kodukontroll</a></li><li><a href="#story">Meie lugu</a></li><li><a href="#team">Spetsialistid</a></li><li><a href="#contact">Kontakt</a></li><li><a href="/en/" hreflang="en" lang="en">In English</a></li><li><a href="/ru/" hreflang="ru" lang="ru">По-русски</a></li></ul></div>
       <div><p class="meta">Kontakt</p><ul><li><a href="mailto:info@kodukontroll.ee">info@kodukontroll.ee</a></li><li><a href="tel:+37257476331">+372 5747 6331</a></li><li><a href="https://wa.me/37257476331" rel="noopener">WhatsApp</a></li></ul></div>
     </div>

@@ -22,9 +22,10 @@ ru/index.html       Same page in Russian
 robots.txt, sitemap.xml, favicon-*.png, apple-touch-icon.png
 assets/css/style.css    All styling + animation system; light only
 assets/js/main.js       Nav, scroll progress, reveal, tabs, timeline, count-up, FAQ, form
-assets/report/          Sample inspection report as PDF (ET/EN/RU), linked from the site
-assets/report/template/ HTML+CSS source of the report — the template for real reports,
-                        plus koogi-ulevaatus.jpg (the object photo on page 2)
+assets/report/template/ Source of the sample report; nothing under assets/report/ is
+                        linked from the site — the sample is sent by e-mail on request.
+                        HTML+CSS template for real reports too, plus
+                        koogi-ulevaatus.jpg (the object photo on page 2)
 ```
 
 Each page has the same sections, in this order, with the same anchor ids in
@@ -79,57 +80,42 @@ All motion is CSS-first with a small JS layer (`assets/js/main.js`):
 
 ## Sample report
 
-The "view a sample report" button in `#report`, the report card next to it and
-the footer link open a PDF in a new tab:
+The sample report is **not published as a file**. `#report` on each page holds a
+short request form (name + e-mail, `id="report-form"`) next to the report card;
+submitting it opens a prefilled mail to info@kodukontroll.ee, and the sample is
+sent back by e-mail. The footer link points at `#report` rather than a PDF. The
+card itself is `.rcard.rcard--static` — the same card as before, no longer a
+link.
 
-```
-assets/report/kodukontroll-naidisaruanne-et.pdf    (ET page)
-assets/report/kodukontroll-sample-report-en.pdf    (EN page)
-assets/report/kodukontroll-primer-otcheta-ru.pdf   (RU page)
-```
-
-The PDFs are rendered from `assets/report/template/report-{et,en,ru}.html` +
+The report is laid out in `assets/report/template/report-{et,en,ru}.html` +
 `report.css`, which is also the layout template for real reports: 6 fixed A4
 pages (cover + summary, scope + object photo and location drawing, findings
 1–4, 5–8, 9–11 + check-point table, requirements + assessment + signature).
 Copy a template, replace the text, swap the object photo on page 2 and the
-grey photo placeholders for `<img>` tags. Each
-`.page` is a fixed A4 box with `overflow: hidden`, so keep each page's content
-within it (open the HTML in a browser to check, or add a page).
+grey photo placeholders for `<img>` tags. Each `.page` is a fixed A4 box with
+`overflow: hidden`, so keep each page's content within it (open the HTML in a
+browser to check, or add a page).
 
-Hostinger's CDN caches files at fixed URLs for 7 days, so the favicons and the
-sample-report PDFs carry a `?v=<content hash>` in the pages that link them, the
-same way `style.css` does. Bump those tokens whenever you replace one of those
-files, or the edge keeps serving the old copy to visitors.
-
-Rebuild the PDFs after editing:
+Render the PDFs — the sample to send out, or a real report from a filled-in
+template:
 
 ```bash
 sh assets/report/template/build.sh
 ```
 
-**The published sample is gated.** Page 1 is the real cover; every page after
-it ships as a blurred image with a notice pointing at the form on the site, so
-a visitor sees the structure and has to ask for the readable version. That step
-is `make-preview.py`, which build.sh calls: it rasterises the pages after the
-cover at 200 ppi, blurs them (the running header and footer strips are pasted
-back sharp), and re-assembles them into the PDF. Blurring in the browser
-instead also works, but Chrome rasterises every filtered layer at 300 ppi
-lossless and the PDF grows from 0.8 MB to 8.5 MB.
+They land in `assets/report/template/out/`, which is git-ignored and not
+served. Rendering uses headless Google Chrome (macOS path by default; set
+`CHROME=` for another location).
 
-To render a complete, readable report — which is what you want when producing a
-real report from a template — skip the gate:
+The sample data is illustrative (address, names, numbers changed, finding
+photos replaced by placeholders — the general view on page 2 is a real object
+photo); the counts match the numbers shown on the site (96 check points,
+11 findings: 1 critical, 4 major, 6 cosmetic).
 
-```bash
-FULL=1 sh assets/report/template/build.sh
-```
-
-Both use headless Google Chrome (macOS path by default; set `CHROME=` for
-another location); the gated build also needs poppler's `pdftoppm` and Pillow.
-The sample data is illustrative (address, names, numbers
-changed, finding photos replaced by placeholders — the general view on page 2
-is a real object photo); the counts match the numbers shown on the site
-(96 check points, 11 findings: 1 critical, 4 major, 6 cosmetic).
+Hostinger's CDN caches files at fixed URLs for 7 days, so the favicons carry a
+`?v=<content hash>` in the pages that link them, the same way `style.css` does.
+Bump those tokens whenever you replace one of those files, or the edge keeps
+serving the old copy to visitors.
 
 The elevation drawing on page 2 shares its row with the photo, so it renders
 at about 41% of the sheet width. Its annotations (dimension text, marker

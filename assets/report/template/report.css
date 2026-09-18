@@ -57,22 +57,6 @@ body {
 
 .ph { display: flex; justify-content: space-between; gap: 6mm; padding-bottom: 3mm; border-bottom: 1px solid var(--ink); margin-bottom: 7mm; }
 .ph .meta { white-space: nowrap; }
-/* ---------- Gated preview ----------
-   Only for the published sample: build.sh renders the report, blurs every page
-   after the cover into an image and re-assembles them with this notice on top.
-   Real reports are built with FULL=1 and never see these rules. */
-.page--preview { padding: 0; }
-.page__shot { width: 210mm; height: 296.8mm; display: block; }
-.lock { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 var(--pad-x); }
-.lock__card {
-  width: 122mm; background: var(--paper); border: 1px solid var(--ink);
-  padding: 9mm 11mm 8mm; display: grid; gap: 3.2mm; justify-items: center; text-align: center;
-  box-shadow: 0 3mm 12mm rgba(29, 29, 31, .14);
-}
-.lock__mark { width: 11mm; height: 11mm; color: var(--ink); }
-.lock__title { margin: 0; font-family: var(--sans-head); font-size: 14pt; font-weight: 700; letter-spacing: -.02em; }
-.lock__text { margin: 0; max-width: 92mm; color: var(--ink-2); font-size: 10pt; line-height: 1.5; }
-
 .pf { position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: 9mm; display: flex; justify-content: space-between; gap: 6mm; padding-top: 2.5mm; border-top: 1px solid var(--rule); }
 
 /* ---------- Type ---------- */
