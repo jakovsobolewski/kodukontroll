@@ -28,6 +28,9 @@ RewriteRule ^([^.]+)$ $1.html [L]
 RewriteCond %{THE_REQUEST} \s/([^.\s]+)\.html[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L]
 
+# The form endpoint writes leads to storage/ — never serve that directory
+RewriteRule ^storage/ - [F,L]
+
 ErrorDocument 404 /404.html
 
 <IfModule mod_expires.c>

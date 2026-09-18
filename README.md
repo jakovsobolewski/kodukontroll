@@ -19,6 +19,8 @@ en/index.html       Same page in English
 ru/index.html       Same page in Russian
 404.html            Not-found page (Estonian)
 .htaccess           HTTPS + www redirect, old-URL redirects, clean URLs, caching, 404
+form.php            Form endpoint: mails every entry to info@ and logs it to storage/
+storage/            The lead log (storage/leads.csv). Never served; not in git
 robots.txt, sitemap.xml, favicon-*.png, apple-touch-icon.png
 assets/css/style.css    All styling + animation system; light only
 assets/js/main.js       Nav, scroll progress, reveal, tabs, timeline, count-up, FAQ, form
@@ -122,14 +124,61 @@ at about 41% of the sheet width. Its annotations (dimension text, marker
 circles and numbers, stroke widths) are drawn 1.7x larger in SVG user units to
 keep their printed size — scale both together if that column ever changes.
 
-## Contact form
+## Forms
 
-The form has no backend. On submit it opens the visitor's mail client with a
-prefilled message (`mailto:`) built from the field labels, so it works in all
-languages. Attachments (photos, drawings) are added in the mail client.
-To switch to a real backend (Formspree, Web3Forms, your own endpoint), give
-the `<form>` an `action` + `method="post"` and remove the submit handler in
-`assets/js/main.js`.
+Both forms — `#contact-form` (the request) and `#report-form` (the sample
+report, in `#report`) — post to **`/form.php`**, which
+
+1. mails the entry to **info@kodukontroll.ee** with `Reply-To:` set to the
+   sender, so hitting reply answers the visitor;
+2. appends it to **`storage/leads.csv`** (UTF-8 with a BOM, opens straight in
+   Excel), which is what makes a lead survive a mail failure;
+3. answers JSON to `main.js` (which posts with `fetch` and shows the result in
+   place), or a small HTML page when the browser posts the form itself.
+
+Language and form id travel in hidden fields, so the mail, the messages and the
+no-JS page come back in the visitor's language. `form.php` whitelists the
+fields per form, so adding a field to a page also means adding it to `$FORMS`
+and `$LABELS` there.
+
+Mail goes out with PHP's `mail()`, which Hostinger hands to its local MTA.
+Nothing here needs a password, so no credential lives in this repo. If mail to
+info@ ever stops arriving, the entries are still in `storage/leads.csv` and the
+failure is in the PHP error log — the fix is then to send over authenticated
+SMTP (PHPMailer + the info@ mailbox credentials) instead of `mail()`.
+
+**Spam defences**, in the order they run: a honeypot field (`website`) no human
+sees, a minimum fill-in time of 3 seconds (only checked when JS timed the
+visit), and 10 submissions per IP per hour. The first two answer the bot with a
+normal success message and drop the entry; the third answers 429. Tune them in
+`$CONFIG` at the top of `form.php`.
+
+**The lead log must stay unreadable from the web.** `storage/.htaccess` denies
+the directory and the root `.htaccess` has `RewriteRule ^storage/ - [F,L]` as a
+second lock. After a deploy, check that `https://kodukontroll.ee/storage/leads.csv`
+gives 403 — if it ever downloads, every lead's name, phone and address is
+public.
+
+Attachments: the form takes no files. The contact form tells visitors to send
+photos, the contract or drawings to info@kodukontroll.ee.
+
+### Testing it locally
+
+The site needs PHP for the forms, so serve it with PHP's built-in server rather
+than a static file server:
+
+```bash
+php -S 127.0.0.1:8765 -t .
+```
+
+`mail()` will fail on a normal Mac, which is the useful case to see: the entry
+still lands in `storage/leads.csv` and the page still says thank you. To watch
+the actual message instead, point `sendmail_path` at a script that just saves
+its stdin:
+
+```bash
+php -d sendmail_path="/path/to/capture.sh -t -i" -S 127.0.0.1:8765 -t .
+```
 
 ## Design
 
@@ -156,11 +205,13 @@ the `<form>` an `action` + `method="post"` and remove the submit handler in
 ## Local preview
 
 ```bash
-python3 -m http.server 8080
+php -S 127.0.0.1:8080 -t .
 ```
 
 Then open http://localhost:8080/. Absolute paths (`/assets/...`) are used, so
-serve from the project root rather than opening files directly.
+serve from the project root rather than opening files directly. `python3 -m
+http.server 8080` also works for everything except the forms — it cannot run
+`form.php`.
 
 ## Deploy
 
@@ -172,12 +223,16 @@ The repo is pulled into `public_html`; the branch is `main`.
   push webhook on this repo, so every push to `main` redeploys.
 - Manual redeploy: hPanel → Git → Deploy.
 - `.htaccess` is active on Hostinger (Apache/LiteSpeed).
+- PHP must be enabled for the site (hPanel → Advanced → PHP Configuration);
+  `form.php` needs nothing beyond a default PHP 8 build.
+- `storage/` is not in git. PHP creates it on the first submission; if the
+  account forbids that, create it in File Manager and make it writable.
 - SSL: enable the free Let's Encrypt certificate in hPanel → Security → SSL
   once the domain points at the hosting.
 
 ### Mailbox
 
-The site sends everything to **info@kodukontroll.ee**, so that mailbox must be
+Every form entry is mailed to **info@kodukontroll.ee**, so that mailbox must be
 created on Hostinger: hPanel → Emails → kodukontroll.ee → Create email account
 (`info`). Hostinger adds the MX/SPF records to its DNS zone automatically, but
 that only works once the kodukontroll.ee zone is actually served by Hostinger's

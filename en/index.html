@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Arimo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/style.css?v=30447303">
+<link rel="stylesheet" href="/assets/css/style.css?v=15cf631c">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@type": "LocalBusiness",
@@ -172,14 +172,16 @@
         <div>
           <div class="sec__head" data-reveal><h2>What you get</h2><p class="dim">Not just an expert&#x27;s opinion, but a working tool for the conversation with your contractor.</p></div>
           <p class="dim" data-reveal style="--i:1">If no significant defects are found, the report says so too. You can accept the work with more confidence, rather than on the contractor&#x27;s word that “this is how it should be”.</p>
-          <form class="form form--compact" id="report-form" data-to="info@kodukontroll.ee" data-subject="Sample report request" data-reveal style="--i:2">
+          <form class="form form--compact" id="report-form" action="/form.php" method="post" data-endpoint data-reveal style="--i:2">
+            <div class="hp" aria-hidden="true"><label for="r-website">Website</label><input id="r-website" name="website" type="text" tabindex="-1" autocomplete="off"></div><input type="hidden" name="lang" value="en"><input type="hidden" name="form" value="report">
             <div class="form__head"><p class="meta">Request the sample report</p><p class="dim">Fill in the form and we will send you the full sample report by e-mail.</p></div>
             <div class="form__row">
               <div class="field"><label for="r-name">Name</label><input id="r-name" name="name" type="text" autocomplete="name" required></div>
               <div class="field"><label for="r-email">E-mail</label><input id="r-email" name="email" type="email" autocomplete="email" required></div>
             </div>
             <p class="form__note">We use your details only to answer your request — see the <a href="#privacy">privacy policy</a>.</p>
-            <p class="form-status" role="status">Your request is ready. If your e-mail program did not open, write to info@kodukontroll.ee directly.</p>
+            <p class="form-status form-status--ok" role="status">Thank you. We will send the sample report by e-mail shortly.</p>
+            <p class="form-status form-status--err" role="alert"><span class="form-status__msg">The request could not be sent.</span> Please try again or write to <a href="mailto:info@kodukontroll.ee">info@kodukontroll.ee</a>.</p>
             <div><button class="btn" type="submit"><span>Send me the sample</span></button></div>
           </form>
         </div>
@@ -253,7 +255,8 @@
       <div>
         <div class="sec__head" data-reveal><p class="meta">Send a request</p><h2>Check the work before it becomes your problem.</h2><p class="lead">Send us the details of your object. We will assess the scope, identify the specialists needed and tell you the price in advance.</p></div>
         <div class="two two--wide">
-          <form class="form" id="contact-form" data-to="info@kodukontroll.ee" data-subject="Inspection request" novalidate data-reveal>
+          <form class="form" id="contact-form" action="/form.php" method="post" data-endpoint data-reveal>
+            <div class="hp" aria-hidden="true"><label for="c-website">Website</label><input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off"></div><input type="hidden" name="lang" value="en"><input type="hidden" name="form" value="contact">
             <div class="form__row">
               <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
               <div class="field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
@@ -267,9 +270,10 @@
               <div class="field"><label for="f-date">Preferred date</label><input id="f-date" name="date" type="date"></div>
               <div class="field"><label for="f-lang">Preferred language</label><select id="f-lang" name="language"><option>English</option><option>eesti</option><option>русский</option></select></div>
             </div>
-            <div class="field field--note"><span class="label">Photos and documents</span><span class="hint">Submitting opens your email client. Attach photos, the contract, estimate or drawings there.</span></div>
+            <div class="field field--note"><span class="label">Photos and documents</span><span class="hint">Send photos, the contract, the estimate or drawings to info@kodukontroll.ee — or attach them to your reply to us.</span></div>
             <p class="form__note">By sending a request you confirm that you have read the <a href="#privacy">privacy policy</a>.</p>
-            <p class="form-status" id="form-status" role="status">Your message has been prepared. If your email client did not open, write directly to info@kodukontroll.ee.</p>
+            <p class="form-status form-status--ok" role="status">Thank you. Your request has been sent. We normally reply within one working day.</p>
+            <p class="form-status form-status--err" role="alert"><span class="form-status__msg">The request could not be sent.</span> Please try again or write to <a href="mailto:info@kodukontroll.ee">info@kodukontroll.ee</a>.</p>
             <div><button class="btn" type="submit"><span>Request a proposal</span></button></div>
           </form>
           <aside class="side" data-reveal style="--i:1">
@@ -300,6 +304,6 @@
     <div class="foot__bottom meta"><span>© <span id="year">2026</span> Little Kris OÜ</span><span>Prices are agreed before the visit</span></div>
   </div>
 </footer>
-<script src="/assets/js/main.js?v=329a17f4" onerror="document.documentElement.classList.remove('js')"></script>
+<script src="/assets/js/main.js?v=c132157f" onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

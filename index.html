@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Arimo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/style.css?v=30447303">
+<link rel="stylesheet" href="/assets/css/style.css?v=15cf631c">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@type": "LocalBusiness",
@@ -172,14 +172,16 @@
         <div>
           <div class="sec__head" data-reveal><h2>Mida te saate</h2><p class="dim">Mitte lihtsalt spetsialisti arvamus, vaid tööriist töövõtjaga suhtlemiseks.</p></div>
           <p class="dim" data-reveal style="--i:1">Kui olulisi puudusi ei leita, kajastub ka see aruandes. Saate töö vastu võtta suurema kindlusega, mitte ainult tegija sõnade „nii peabki olema“ põhjal.</p>
-          <form class="form form--compact" id="report-form" data-to="info@kodukontroll.ee" data-subject="Aruande näidise päring" data-reveal style="--i:2">
+          <form class="form form--compact" id="report-form" action="/form.php" method="post" data-endpoint data-reveal style="--i:2">
+            <div class="hp" aria-hidden="true"><label for="r-website">Website</label><input id="r-website" name="website" type="text" tabindex="-1" autocomplete="off"></div><input type="hidden" name="lang" value="et"><input type="hidden" name="form" value="report">
             <div class="form__head"><p class="meta">Küsi näidisaruanne</p><p class="dim">Täitke vorm ja saadame teile täismahus näidisaruande e-postiga.</p></div>
             <div class="form__row">
               <div class="field"><label for="r-name">Nimi</label><input id="r-name" name="name" type="text" autocomplete="name" required></div>
               <div class="field"><label for="r-email">E-post</label><input id="r-email" name="email" type="email" autocomplete="email" required></div>
             </div>
             <p class="form__note">Andmeid kasutame ainult teie päringule vastamiseks — vt <a href="#privacy">privaatsuspoliitikat</a>.</p>
-            <p class="form-status" role="status">Päring on ette valmistatud. Kui e-posti programm ei avanenud, kirjutage otse aadressile info@kodukontroll.ee.</p>
+            <p class="form-status form-status--ok" role="status">Aitäh! Saadame näidisaruande e-postiga lähiajal.</p>
+            <p class="form-status form-status--err" role="alert"><span class="form-status__msg">Saatmine ebaõnnestus.</span> Palun proovige uuesti või kirjutage <a href="mailto:info@kodukontroll.ee">info@kodukontroll.ee</a>.</p>
             <div><button class="btn" type="submit"><span>Saada mulle näidis</span></button></div>
           </form>
         </div>
@@ -253,7 +255,8 @@
       <div>
         <div class="sec__head" data-reveal><p class="meta">Saada päring</p><h2>Kontrollige töö üle enne, kui sellest saab teie probleem.</h2><p class="lead">Saatke info objekti kohta. Hindame kontrolli mahu, määrame vajalikud spetsialistid ja teatame hinna eelnevalt.</p></div>
         <div class="two two--wide">
-          <form class="form" id="contact-form" data-to="info@kodukontroll.ee" data-subject="Kontrolli päring" novalidate data-reveal>
+          <form class="form" id="contact-form" action="/form.php" method="post" data-endpoint data-reveal>
+            <div class="hp" aria-hidden="true"><label for="c-website">Website</label><input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off"></div><input type="hidden" name="lang" value="et"><input type="hidden" name="form" value="contact">
             <div class="form__row">
               <div class="field"><label for="f-name">Nimi</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
               <div class="field"><label for="f-phone">Telefon</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
@@ -267,9 +270,10 @@
               <div class="field"><label for="f-date">Soovitud kuupäev</label><input id="f-date" name="date" type="date"></div>
               <div class="field"><label for="f-lang">Eelistatud suhtluskeel</label><select id="f-lang" name="language"><option>eesti</option><option>русский</option><option>English</option></select></div>
             </div>
-            <div class="field field--note"><span class="label">Fotod ja dokumendid</span><span class="hint">Saatmisel avaneb teie e-posti programm. Lisage fotod, leping, eelarve või joonised sinna manusena.</span></div>
+            <div class="field field--note"><span class="label">Fotod ja dokumendid</span><span class="hint">Saatke fotod, leping, eelarve või joonised aadressile info@kodukontroll.ee — või lisage need vastuskirjale.</span></div>
             <p class="form__note">Päringu saatmisega kinnitate, et olete tutvunud <a href="#privacy">privaatsuspoliitikaga</a>.</p>
-            <p class="form-status" id="form-status" role="status">Kiri on ette valmistatud. Kui e-posti programm ei avanenud, kirjutage otse aadressile info@kodukontroll.ee.</p>
+            <p class="form-status form-status--ok" role="status">Aitäh! Päring on saadetud. Vastame tavaliselt ühe tööpäeva jooksul.</p>
+            <p class="form-status form-status--err" role="alert"><span class="form-status__msg">Saatmine ebaõnnestus.</span> Palun proovige uuesti või kirjutage <a href="mailto:info@kodukontroll.ee">info@kodukontroll.ee</a>.</p>
             <div><button class="btn" type="submit"><span>Küsi pakkumist</span></button></div>
           </form>
           <aside class="side" data-reveal style="--i:1">
@@ -300,6 +304,6 @@
     <div class="foot__bottom meta"><span>© <span id="year">2026</span> Little Kris OÜ</span><span>Hinnad lepitakse kokku enne väljasõitu</span></div>
   </div>
 </footer>
-<script src="/assets/js/main.js?v=329a17f4" onerror="document.documentElement.classList.remove('js')"></script>
+<script src="/assets/js/main.js?v=c132157f" onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

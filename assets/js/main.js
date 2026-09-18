@@ -1,4 +1,4 @@
-/* Kodukontroll — nav, scroll progress, reveal, tabs, timeline, count-up, FAQ, form, year */
+/* Kodukontroll — nav, scroll progress, reveal, tabs, timeline, count-up, FAQ, forms, year */
 (function () {
   'use strict';
   var d = document, w = window;
@@ -199,25 +199,54 @@
     });
   });
 
-  /* ---- Mailto forms (no backend): the contact request and the sample-report request.
-         Labels come from the DOM, so this works in every language. ---- */
-  [].slice.call(d.querySelectorAll('form[data-to]')).forEach(function (form) {
+  /* ---- Forms: post to /form.php with fetch, keep the native post as fallback ---- */
+  [].slice.call(d.querySelectorAll('form[data-endpoint]')).forEach(function (form) {
+    var opened = String(Date.now());          // how long the visitor took; the endpoint drops instant posts
+    var ok = form.querySelector('.form-status--ok');
+    var err = form.querySelector('.form-status--err');
+    var msg = err && err.querySelector('.form-status__msg');
+    var btn = form.querySelector('button[type="submit"]');
+    var defaultError = msg ? msg.textContent : '';
+    var busy = false;
+
+    function show(el) {
+      if (ok) ok.classList.toggle('is-visible', el === ok);
+      if (err) err.classList.toggle('is-visible', el === err);
+    }
+
     form.addEventListener('submit', function (e) {
+      if (!w.fetch || !w.FormData) return;    // old browser: let it post the form itself
       e.preventDefault();
-      var to = form.getAttribute('data-to') || 'info@kodukontroll.ee';
-      var subject = form.getAttribute('data-subject') || 'Kodukontroll';
-      var lines = [];
-      [].slice.call(form.querySelectorAll('input[name], select[name], textarea[name]')).forEach(function (f) {
-        var lab = form.querySelector('label[for="' + f.id + '"]');
-        var name = lab ? lab.textContent.trim() : f.name;
-        var val = (f.value || '').trim();
-        if (f.tagName === 'TEXTAREA') lines.push('', name + ':', val);
-        else lines.push(name + ': ' + val);
+      if (busy) return;
+      busy = true;
+      show(null);
+      if (btn) { btn.disabled = true; btn.classList.add('is-busy'); }
+
+      var data = new FormData(form);
+      data.set('ajax', '1');
+      data.set('started', opened);
+      data.set('page', w.location.href);
+
+      w.fetch(form.getAttribute('action'), {
+        method: 'POST', body: data, headers: { 'Accept': 'application/json' }
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) { return { r: r, j: j }; });
+      }).then(function (res) {
+        if (res.r.ok && res.j.ok) {
+          if (ok && res.j.message) ok.textContent = res.j.message;
+          form.reset();
+          show(ok);
+        } else {
+          if (msg) msg.textContent = res.j.message || defaultError;
+          show(err);
+        }
+      }).catch(function () {
+        if (msg) msg.textContent = defaultError;
+        show(err);
+      }).then(function () {
+        busy = false;
+        if (btn) { btn.disabled = false; btn.classList.remove('is-busy'); }
       });
-      var addr = (form.querySelector('[name="address"]') || {}).value;
-      w.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject + (addr ? ' — ' + addr : '')) + '&body=' + encodeURIComponent(lines.join('\n'));
-      var status = form.querySelector('.form-status');
-      if (status) status.classList.add('is-visible');
     });
   });
 

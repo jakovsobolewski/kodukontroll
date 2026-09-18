@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Arimo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/style.css?v=30447303">
+<link rel="stylesheet" href="/assets/css/style.css?v=15cf631c">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@type": "LocalBusiness",
@@ -172,14 +172,16 @@
         <div>
           <div class="sec__head" data-reveal><h2>Что вы получите</h2><p class="dim">Не просто мнение специалиста, а рабочий инструмент для разговора с подрядчиком.</p></div>
           <p class="dim" data-reveal style="--i:1">Если существенных недостатков не обнаружено, это также будет отражено в заключении. Вы сможете принимать работу с большей уверенностью, а не просто со словами исполнителя «так и должно быть».</p>
-          <form class="form form--compact" id="report-form" data-to="info@kodukontroll.ee" data-subject="Запрос примера отчёта" data-reveal style="--i:2">
+          <form class="form form--compact" id="report-form" action="/form.php" method="post" data-endpoint data-reveal style="--i:2">
+            <div class="hp" aria-hidden="true"><label for="r-website">Website</label><input id="r-website" name="website" type="text" tabindex="-1" autocomplete="off"></div><input type="hidden" name="lang" value="ru"><input type="hidden" name="form" value="report">
             <div class="form__head"><p class="meta">Запросить пример отчёта</p><p class="dim">Заполните форму — и мы пришлём вам полный пример отчёта по электронной почте.</p></div>
             <div class="form__row">
               <div class="field"><label for="r-name">Имя</label><input id="r-name" name="name" type="text" autocomplete="name" required></div>
               <div class="field"><label for="r-email">Эл. почта</label><input id="r-email" name="email" type="email" autocomplete="email" required></div>
             </div>
             <p class="form__note">Данные используем только для ответа на ваш запрос — см. <a href="#privacy">политику конфиденциальности</a>.</p>
-            <p class="form-status" role="status">Запрос подготовлен. Если почтовая программа не открылась, напишите напрямую на info@kodukontroll.ee.</p>
+            <p class="form-status form-status--ok" role="status">Спасибо! В ближайшее время пришлём пример отчёта по электронной почте.</p>
+            <p class="form-status form-status--err" role="alert"><span class="form-status__msg">Не удалось отправить запрос.</span> Попробуйте ещё раз или напишите на <a href="mailto:info@kodukontroll.ee">info@kodukontroll.ee</a>.</p>
             <div><button class="btn" type="submit"><span>Прислать пример</span></button></div>
           </form>
         </div>
@@ -253,7 +255,8 @@
       <div>
         <div class="sec__head" data-reveal><p class="meta">Оставить заявку</p><h2>Проверьте работу до того, как она станет вашей проблемой.</h2><p class="lead">Отправьте информацию об объекте — мы оценим объём проверки, определим необходимых специалистов и заранее сообщим стоимость.</p></div>
         <div class="two two--wide">
-          <form class="form" id="contact-form" data-to="info@kodukontroll.ee" data-subject="Заявка на проверку" novalidate data-reveal>
+          <form class="form" id="contact-form" action="/form.php" method="post" data-endpoint data-reveal>
+            <div class="hp" aria-hidden="true"><label for="c-website">Website</label><input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off"></div><input type="hidden" name="lang" value="ru"><input type="hidden" name="form" value="contact">
             <div class="form__row">
               <div class="field"><label for="f-name">Имя</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
               <div class="field"><label for="f-phone">Телефон</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
@@ -267,9 +270,10 @@
               <div class="field"><label for="f-date">Желаемая дата</label><input id="f-date" name="date" type="date"></div>
               <div class="field"><label for="f-lang">Предпочитаемый язык общения</label><select id="f-lang" name="language"><option>русский</option><option>eesti</option><option>English</option></select></div>
             </div>
-            <div class="field field--note"><span class="label">Фотографии и документы</span><span class="hint">При отправке откроется ваша почтовая программа. Приложите туда фотографии, договор, смету или чертежи.</span></div>
+            <div class="field field--note"><span class="label">Фотографии и документы</span><span class="hint">Фотографии, договор, смету или чертежи пришлите на info@kodukontroll.ee — или приложите к ответному письму.</span></div>
             <p class="form__note">Отправляя заявку, вы подтверждаете ознакомление с <a href="#privacy">политикой конфиденциальности</a>.</p>
-            <p class="form-status" id="form-status" role="status">Письмо подготовлено. Если почтовая программа не открылась, напишите напрямую на info@kodukontroll.ee.</p>
+            <p class="form-status form-status--ok" role="status">Спасибо! Запрос отправлен. Обычно отвечаем в течение одного рабочего дня.</p>
+            <p class="form-status form-status--err" role="alert"><span class="form-status__msg">Не удалось отправить запрос.</span> Попробуйте ещё раз или напишите на <a href="mailto:info@kodukontroll.ee">info@kodukontroll.ee</a>.</p>
             <div><button class="btn" type="submit"><span>Получить предложение</span></button></div>
           </form>
           <aside class="side" data-reveal style="--i:1">
@@ -300,6 +304,6 @@
     <div class="foot__bottom meta"><span>© <span id="year">2026</span> Little Kris OÜ</span><span>Стоимость согласовывается до выезда</span></div>
   </div>
 </footer>
-<script src="/assets/js/main.js?v=329a17f4" onerror="document.documentElement.classList.remove('js')"></script>
+<script src="/assets/js/main.js?v=c132157f" onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>
