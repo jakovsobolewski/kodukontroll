@@ -30,3 +30,23 @@ for name, size, gamma in OUTPUTS:
     with open(name, "rb") as f:
         token = hashlib.md5(f.read()).hexdigest()[:8]
     print("wrote", name, f"{size}x{size}", "?v=" + token)
+
+# Header mark: 128 px (4x the 32 px CSS size) with the white background
+# lifted to transparency so it sits on the paper tint without a white square.
+HEADER = "assets/img/mark-128.png"
+icon = mark.resize((128, 128), Image.LANCZOS).convert("RGBA")
+px = icon.load()
+for y in range(128):
+    for x in range(128):
+        r, g, b, _ = px[x, y]
+        lum = round(0.299 * r + 0.587 * g + 0.114 * b)
+        a = 255 - lum
+        if a == 0:
+            px[x, y] = (0, 0, 0, 0)
+            continue
+        # un-composite from white: c = c' * a + 255 * (1 - a)
+        un = lambda c: max(0, min(255, round((c - 255 * (1 - a / 255)) / (a / 255))))
+        px[x, y] = (un(r), un(g), un(b), a)
+icon.save(HEADER, optimize=True)
+with open(HEADER, "rb") as f:
+    print("wrote", HEADER, "128x128", "?v=" + hashlib.md5(f.read()).hexdigest()[:8])

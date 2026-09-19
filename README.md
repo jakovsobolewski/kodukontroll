@@ -199,7 +199,8 @@ php -d sendmail_path="/path/to/capture.sh -t -i" -S 127.0.0.1:8765 -t .
   icon: the blueprint K-in-a-circle from the logo, without the wordmark
   (`assets/img/mark.png`, resized to `favicon-16/32/192/512.png` and
   `apple-touch-icon.png` by `python3 assets/img/make-favicon.py`, which also
-  prints the new `?v=` tokens).
+  prints the new `?v=` tokens). The same script writes `assets/img/mark-128.png`,
+  a transparent 128 px copy shown at 32 px next to the wordmark in the header.
   Brand book: see the published artifact "Kodukontroll Brand Book".
 - Language switcher: text codes (ET / EN / RU), not flags — the page carries
   no colour.
