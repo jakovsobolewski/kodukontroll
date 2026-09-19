@@ -196,8 +196,10 @@ php -d sendmail_path="/path/to/capture.sh -t -i" -S 127.0.0.1:8765 -t .
   be reintroduced in one place. Tokens at the top of `style.css`; the report
   template mirrors them in `report.css`.
 - Mark: a grey ring with a K, inline in the report wordmark. Favicon and touch
-  icon: a white Helvetica K on an ink tile (`favicon-16/32/192/512.png`,
-  `apple-touch-icon.png`), regenerated with `python3 assets/img/make-favicon.py`.
+  icon: the blueprint K-in-a-circle from the logo, without the wordmark
+  (`assets/img/mark.png`, resized to `favicon-16/32/192/512.png` and
+  `apple-touch-icon.png` by `python3 assets/img/make-favicon.py`, which also
+  prints the new `?v=` tokens).
   Brand book: see the published artifact "Kodukontroll Brand Book".
 - Language switcher: text codes (ET / EN / RU), not flags — the page carries
   no colour.
