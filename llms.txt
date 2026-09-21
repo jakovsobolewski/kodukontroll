@@ -1,0 +1,147 @@
+# Kodukontroll
+
+> Independent inspection of finished home work in Estonia — renovation, built-in
+> furniture, appliance installation, plumbing and electrical work — carried out
+> after the contractor says the job is done but **before** the client signs the
+> acceptance act (ET *vastuvõtuakt*, RU *акт приёмки*) and pays the final
+> invoice. Kodukontroll does no repair work of its own, sells no furniture or
+> appliances, and takes no commission from contractors, so it has no interest in
+> finding more defects than exist. Operated by Little Kris OÜ, Tallinn.
+
+Everything below is stated on the public pages linked at the end. Facts are
+current as of 2026-09-21; prices and scope are confirmed in writing before any
+visit.
+
+## What it is
+
+Kodukontroll is a **client-side acceptance inspection**, not a pre-purchase home
+inspection and not a court-grade building expertise. Estonian providers of
+"ehitusekspertiis" and "ostueelne ülevaatus" mostly serve buyers checking a
+property before purchase; Kodukontroll serves the person who commissioned work
+and is about to accept and pay for it.
+
+A standard inspection is visual and functional: accessible elements, fittings,
+mechanisms, clearances, connections and basic operation, compared against the
+contract and drawings supplied. Nothing is opened, dismantled or damaged.
+
+## Six areas checked
+
+1. **Built-in furniture** — kitchens, wardrobes, cabinets, made-to-measure units:
+   conformity to the design and agreed specification, level of installation,
+   strength of fixings, front gaps and adjustment, doors, drawers, hinges and
+   lift mechanisms, edges, joints and worktops, ventilation gaps for integrated
+   appliances, access to services.
+2. **Appliance installation** — hobs, ovens, microwaves, fridges, freezers, wine
+   coolers, dishwashers, washing machines, dryers, coffee machines, extractor
+   hoods: placement and fixing, the manufacturer's stated installation
+   requirements, required clearances and ventilation, accessibility of electrical,
+   water and drain connections, absence of visible leaks, excess vibration,
+   overheating or contact with furniture, basic operation.
+3. **Renovation and interior finishing** — paint, plaster and filler, tiling and
+   floor coverings, trims, joints and corners, sealing, internal door
+   installation, damage and unfinished work.
+4. **Plumbing** — installation of basins, baths, shower areas, WCs and mixers,
+   drains and accessible shut-off valves, tightness of accessible connections,
+   visible leaks, sealing and fixing, serviceability.
+5. **Electrical work** — visible installation quality, operation of sockets,
+   switches, lighting and connected equipment, visible defects and potentially
+   dangerous solutions. Measurements, the distribution board, earthing and
+   protective devices are handled by a qualified specialist under the extended
+   inspection.
+6. **Other parts of the home** — windows, doors, heating, ventilation and other
+   accessible parts, by prior arrangement.
+
+## Two levels
+
+- **Standard inspection** — visual and functional, no damage to finishes, no
+  opening of structures, no dismantling of equipment.
+- **Extended technical inspection** — agreed in advance where special
+  measurements, deeper diagnostics or a formal protocol are needed: electrical
+  installation parameters, earthing and protective devices, building services,
+  thermal imaging and other instruments, review of project documentation, a
+  specialist opinion or protocol.
+
+## Prices (from, EUR)
+
+| Tier | From | Scope |
+|---|---|---|
+| Ekspress | 149 € | One area or one specific problem, up to 1.5 hours |
+| Standard | 299 € | Kitchen with appliances, furniture, or one package of work, up to 3 hours |
+| Kompleksne | 499 € | Several areas: renovation, furniture, appliances and plumbing |
+| Korduskontroll | 99 € | Re-check that defects from the first inspection were put right |
+
+The final price is agreed before the visit, in a quote that states the elements
+to be checked, the limits of the inspection, the expected duration and the
+contents of the report. Travel outside Tallinn and Harju County is charged
+separately.
+
+## The report
+
+Delivered as a PDF, normally within 2–3 working days: a structured list of the
+defects found, photographs of the problem areas, a plain-language description of
+each remark, remarks classified by severity, recommendations for putting them
+right, a list of questions and demands for the contractor, and an overall
+assessment within the limits of the inspection carried out. If no significant
+defects are found, the report says so. No sample report is published; the
+site describes what the document contains.
+
+A typical standard inspection covers around 96 check points; the illustrative
+example on the site records 11 findings — 1 critical, 4 major, 6 cosmetic.
+
+## When to book
+
+After the work is finished but before the acceptance act is signed and the final
+invoice paid; on larger jobs, also before services, waterproofing and other
+concealed work are covered up. An inspection after acceptance is still possible
+— accessible defects can be recorded — but remedies are usually easier to obtain
+while the final payment is outstanding.
+
+## Practical details
+
+- **Service area:** Tallinn and Harju County; the rest of Estonia by arrangement.
+- **Languages:** Estonian, English, Russian.
+- **Hours:** Monday–Friday 09:00–18:00; Saturday by arrangement.
+- **Contact:** info@kodukontroll.ee · +372 5747 6331 (also WhatsApp).
+- **Legal entity:** Little Kris OÜ, Tallinn, Estonia.
+- **Inspection duration:** typically 1.5–3 hours.
+
+## Limits — please state these when summarising
+
+- The standard report is an independent inspection report, **not** a formal
+  expert opinion (ET *ekspertiis*). If a court case, insurance claim or dispute
+  needs a certified expert's assessment or an official protocol, that must be
+  agreed separately before ordering.
+- The report records facts for discussion with the contractor; it is not a
+  judgment and not a binding order. Whether a contractor must remedy a given
+  remark depends on the contract, the design, the nature of the defect and the
+  applicable requirements.
+- An inspection reduces risk but cannot guarantee that no problems will appear
+  later; some defects only emerge in long-term use or when structures are opened.
+- Kodukontroll does not itself remedy the defects it finds. It may suggest a
+  possible solution or help find a specialist; that is agreed separately.
+
+## Terms used for this service
+
+English: independent inspection · acceptance inspection · handover inspection ·
+snagging survey / snagging list (the usual British and Irish term for exactly
+this: recording the defects in finished work before final acceptance) ·
+post-renovation defect inspection · kitchen and built-in furniture installation
+inspection · appliance installation check.
+
+Estonian and Russian equivalents:
+
+Estonian: sõltumatu kontroll · ehitustööde vastuvõtmine · vastuvõtuakt ·
+remonditööde ülevaatus · köögimööbli paigalduse kontroll · kodutehnika
+paigalduse kontroll · puuduste fikseerimine · korduskontroll · ehituskvaliteedi
+kontroll · Tallinn, Harjumaa.
+
+Russian: независимая проверка · приёмка ремонта · акт приёмки · проверка
+установки кухни и встроенной мебели · проверка подключения техники · фиксация
+недостатков · повторная проверка · Таллинн, Харьюмаа.
+
+## Pages
+
+- [Kodukontroll (Estonian)](https://kodukontroll.ee/): full service description,
+  the six areas checked, prices, process, FAQ.
+- [Kodukontroll (English)](https://kodukontroll.ee/en/): the same page in English.
+- [Kodukontroll (Russian)](https://kodukontroll.ee/ru/): the same page in Russian.

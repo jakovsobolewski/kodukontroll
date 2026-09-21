@@ -22,6 +22,9 @@ ru/index.html       Same page in Russian
 form.php            Form endpoint: mails every entry to info@ and logs it to storage/
 storage/            The lead log (storage/leads.csv). Never served; not in git
 robots.txt, sitemap.xml, favicon-*.png, apple-touch-icon.png
+assets/seo/build-jsonld.py  Regenerates the JSON-LD of all three pages from their copy
+assets/img/make-og.py       Draws the share cards og-{et,en,ru}.png
+llms.txt                Plain-text brief for AI answer engines
 assets/css/style.css    All styling + animation system; light only
 assets/js/main.js       Nav, scroll progress, reveal, tabs, timeline, count-up, FAQ, form
 assets/report/template/ Source of the sample report; nothing under assets/report/ is
@@ -253,3 +256,36 @@ nameservers (see Domains). Until then, mail to info@kodukontroll.ee bounces.
   and validating resolvers fail. Fix at Zone.ee: disable DNSSEC / remove the
   DS record, then confirm in hPanel that the zone exists, then uncomment the
   two redirect lines in `.htaccess`.
+
+## SEO and AI visibility
+
+Strategy doc: the Notion page *SEO Strategy* under SBLW / Businesses / kodukontroll.
+
+**Structured data is generated, not hand-written.** Each page carries a
+schema.org `@graph` between the markers `<!-- jsonld:start -->` and
+`<!-- jsonld:end -->` in `<head>`: the business, the site, the page, the
+service, the four price tiers as an `OfferCatalog`, the five process steps as a
+`HowTo`, and all fourteen FAQ entries as a `FAQPage`. It is built by reading the
+page's own visible copy, so **after changing a price, a service name, a process
+step or a FAQ answer, re-run**:
+
+```bash
+python3 assets/seo/build-jsonld.py
+```
+
+Otherwise the markup claims something the visitor does not see, which is exactly
+what search engines and AI crawlers discount. The script asserts nothing the
+page does not state — VAT treatment, for instance, is deliberately left out of
+the price markup because the pricing section does not mention it.
+
+`robots.txt` names the AI answer engines explicitly (GPTBot, OAI-SearchBot,
+ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended,
+Applebot-Extended and the rest) and allows them. `llms.txt` is the plain-text
+brief those crawlers read: what the service is, the six areas, the two levels,
+the prices, what the report contains, and — importantly — the limits, so a model
+summarising Kodukontroll does not promise a court-grade expertise. Keep
+`llms.txt` in step with the pages by hand; it is prose, not generated.
+
+Share cards are regenerated with `python3 assets/img/make-og.py` (greyscale, same
+tokens as the site). `404.html` is `noindex` and deliberately carries no
+canonical and no hreflang.

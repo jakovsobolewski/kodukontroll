@@ -33,13 +33,29 @@ RewriteRule ^storage/ - [F,L]
 
 ErrorDocument 404 /404.html
 
+# llms.txt, robots.txt and sitemap carry Estonian and Russian characters.
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .txt .xml .css .js
+
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/css "access plus 1 month"
   ExpiresByType application/javascript "access plus 1 month"
   ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType application/pdf "access plus 1 week"
+  # Crawlers and AI answer engines re-read these; keep them fresh.
+  ExpiresByType text/plain "access plus 1 day"
+  ExpiresByType application/xml "access plus 1 day"
   ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml \
+    application/javascript application/json application/xml image/svg+xml
 </IfModule>
 
 <IfModule mod_headers.c>
