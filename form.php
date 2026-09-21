@@ -2,8 +2,7 @@
 /**
  * Kodukontroll — form endpoint.
  *
- * Takes both site forms (#contact and #report, in all three languages), mails
- * the entry to info@kodukontroll.ee and appends it to storage/leads.csv so a
+ * Takes the #contact form (in all three languages), mails the entry to info@kodukontroll.ee and appends it to storage/leads.csv so a
  * lead is never lost even if mail delivery fails.
  *
  * Answers JSON when the page posts with fetch (main.js), and a small HTML page
@@ -34,15 +33,11 @@ $CONFIG = [
     'max_len'   => 2000,  // per field
 ];
 
-/* The two forms: which fields are accepted, which are required. */
+/* The form: which fields are accepted, which are required. */
 $FORMS = [
     'contact' => [
         'fields'   => ['name', 'phone', 'email', 'address', 'what', 'date', 'language'],
         'required' => ['name', 'phone', 'email'],
-    ],
-    'report' => [
-        'fields'   => ['name', 'email'],
-        'required' => ['name', 'email'],
     ],
 ];
 
@@ -67,7 +62,6 @@ $LABELS = [
 
 $SUBJECTS = [
     'contact' => ['et' => 'Uus päring', 'en' => 'New request', 'ru' => 'Новый запрос'],
-    'report'  => ['et' => 'Näidisaruande päring', 'en' => 'Sample report request', 'ru' => 'Запрос примера отчёта'],
 ];
 
 /* Copy for the no-JS response page and the JSON messages. */
@@ -75,7 +69,6 @@ $TEXT = [
     'et' => [
         'ok_title'   => 'Aitäh! Päring on saadetud.',
         'ok_text'    => 'Vastame tavaliselt ühe tööpäeva jooksul. Kui vastust ei tule, kirjutage otse aadressile info@kodukontroll.ee.',
-        'ok_report'  => 'Aitäh! Saadame näidisaruande e-postiga lähiajal.',
         'err_title'  => 'Päringut ei õnnestunud saata.',
         'err_text'   => 'Palun proovige uuesti.',
         'err_fields' => 'Palun täitke kohustuslikud väljad.',
@@ -87,7 +80,6 @@ $TEXT = [
     'en' => [
         'ok_title'   => 'Thank you. Your request has been sent.',
         'ok_text'    => 'We normally reply within one working day. If you hear nothing, write to info@kodukontroll.ee directly.',
-        'ok_report'  => 'Thank you. We will send the sample report by e-mail shortly.',
         'err_title'  => 'The request could not be sent.',
         'err_text'   => 'Please try again.',
         'err_fields' => 'Please fill in the required fields.',
@@ -99,7 +91,6 @@ $TEXT = [
     'ru' => [
         'ok_title'   => 'Спасибо! Запрос отправлен.',
         'ok_text'    => 'Обычно отвечаем в течение одного рабочего дня. Если ответа нет, напишите напрямую на info@kodukontroll.ee.',
-        'ok_report'  => 'Спасибо! В ближайшее время пришлём пример отчёта по электронной почте.',
         'err_title'  => 'Не удалось отправить запрос.',
         'err_text'   => 'Попробуйте ещё раз.',
         'err_fields' => 'Пожалуйста, заполните обязательные поля.',
@@ -134,7 +125,7 @@ if ($origin !== '' && (string) parse_url($origin, PHP_URL_HOST) !== host_only($_
     respond(403, false, $t['err_title'], $t['err_text'], $wantsJson, $t);
 }
 
-$okText = $formId === 'report' ? $t['ok_report'] : $t['ok_text'];
+$okText = $t['ok_text'];
 
 /* Honeypot: a field no human sees. Bots fill it in; answer them with a smile. */
 if (post('website') !== '') {
@@ -401,7 +392,7 @@ function respond(int $status, bool $ok, string $title, string $text, bool $json,
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>' . $e($title) . ' — Kodukontroll</title>
-<meta name="theme-color" content="#F8F6F2">
+<meta name="theme-color" content="#F5F4F1">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

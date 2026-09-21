@@ -82,12 +82,12 @@ All motion is CSS-first with a small JS layer (`assets/js/main.js`):
 
 ## Sample report
 
-The sample report is **not published as a file**. `#report` on each page holds a
-short request form (name + e-mail, `id="report-form"`) next to the report card;
-submitting it opens a prefilled mail to info@kodukontroll.ee, and the sample is
-sent back by e-mail. The footer link points at `#report` rather than a PDF. The
-card itself is `.rcard.rcard--static` — the same card as before, no longer a
-link.
+The sample report is **not published and not offered on the site** (the
+request form was dropped on 2026-09-19 as unnecessary work). `#report` on each
+page shows the report card (`.rcard`: what the document contains plus the
+finding counts) next to three plain facts about the document (`.rfacts`:
+turnaround, format, follow-up) and a call to action into `#contact`. The footer
+link "Aruanne / The report / Отчёт" points at `#report`.
 
 The report is laid out in `assets/report/template/report-{et,en,ru}.html` +
 `report.css`, which is also the layout template for real reports: 6 fixed A4
@@ -126,8 +126,7 @@ keep their printed size — scale both together if that column ever changes.
 
 ## Forms
 
-Both forms — `#contact-form` (the request) and `#report-form` (the sample
-report, in `#report`) — post to **`/form.php`**, which
+The request form `#contact-form` posts to **`/form.php`**, which
 
 1. mails the entry to **info@kodukontroll.ee** with `Reply-To:` set to the
    sender, so hitting reply answers the visitor;
