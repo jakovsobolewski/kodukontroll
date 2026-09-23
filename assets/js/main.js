@@ -253,7 +253,13 @@
 
   form.reset();
   show(ok);
-
+// if (typeof w.gtag === 'function') {
+//   w.gtag('event', 'conversion', {
+//     'send_to': 'AW-18467340094/TeRuCNjZ94AdEL7-9OVE',
+//     'value': 1.0,
+//     'currency': 'EUR'
+//   });
+// }
   if (ok) {
     ok.scrollIntoView({
       behavior: reduce ? 'auto' : 'smooth',
