@@ -401,6 +401,31 @@ strong, .strong { font-weight: 600; }
 .field--note { border-bottom: 1px dashed var(--rule-2); padding-bottom: .6rem; }
 .form__note { font-size: .95rem; color: var(--ink-3); max-width: 52ch; }
 .form-status { display: none; font-size: 1rem; color: var(--check); }
+.form-status--ok {
+  padding: 1.1rem 1.2rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule-2);
+  border-left: 4px solid var(--ink);
+  border-radius: var(--radius-btn);
+  color: var(--ink);
+  box-shadow: 0 12px 30px -24px rgba(29, 29, 31, .45);
+}
+
+.form-status__title {
+  display: block;
+  font-family: var(--sans-head);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: .35rem;
+}
+
+.form-status__text {
+  display: block;
+  color: var(--ink-2);
+  font-size: 1rem;
+  line-height: 1.5;
+}
 .form-status.is-visible { display: block; animation: fadeUp .4s var(--ease); }
 .form-status--err { color: var(--ink); border-left: 2px solid var(--ink); padding-left: .7rem; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
