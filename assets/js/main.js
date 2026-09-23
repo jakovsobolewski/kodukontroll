@@ -259,8 +259,7 @@
       behavior: reduce ? 'auto' : 'smooth',
       block: 'center'
     });
-  }
-}      
+  }     
         } else {
           if (msg) msg.textContent = res.j.message || defaultError;
           show(err);
