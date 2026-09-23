@@ -405,13 +405,13 @@ strong, .strong { font-weight: 600; }
   display: block;
   margin-top: 18px;
   padding: 18px 20px;
-  border: 1px solid #b8d9c2;
-  border-left: 5px solid #397a4d;
-  border-radius: 10px;
-  background: #f3faf5;
-  color: #1d3b27;
+  border: 1px solid var(--rule-2);
+  border-left: 5px solid var(--ink);
+  border-radius: var(--radius-btn);
+  background: var(--sheet);
+  color: var(--ink);
+  box-shadow: 0 12px 30px -24px rgba(29, 29, 31, .45);
 }
-
 .form-status__title {
   display: block;
   margin-bottom: 6px;
