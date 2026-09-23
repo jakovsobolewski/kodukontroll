@@ -233,7 +233,20 @@
         return r.json().catch(function () { return {}; }).then(function (j) { return { r: r, j: j }; });
       }).then(function (res) {
         if (res.r.ok && res.j.ok) {
-          if (ok && res.j.message) ok.textContent = res.j.message;
+          if (ok) {
+            ok.innerHTML = '';
+
+            var title = d.createElement('strong');
+            title.className = 'form-status__title';
+            title.textContent = res.j.title || 'Aitäh! Päring on saadetud.';
+
+            var text = d.createElement('span');
+            text.className = 'form-status__text';
+            text.textContent = res.j.message || '';
+
+            ok.appendChild(title);
+            ok.appendChild(text);
+        }
           form.reset();
           show(ok);
         } else {
