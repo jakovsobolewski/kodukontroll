@@ -395,6 +395,9 @@ strong, .strong { font-weight: 600; }
   color: var(--ink-3);
   opacity: 1;
 }
+.field input[type="date"]::-webkit-date-and-time-value {
+  color: var(--ink);
+}
 .field input:focus, .field select:focus, .field textarea:focus { outline: 0; }
 .field::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--check); transform: scaleX(0); transform-origin: left; transition: transform .4s var(--ease); pointer-events: none; }
 .field:has(.hint)::after { display: none; }
