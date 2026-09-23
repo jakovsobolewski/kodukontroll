@@ -3,7 +3,8 @@
  * Kodukontroll — form endpoint.
  *
  * Takes the #contact form (in all three languages), mails the entry to info@kodukontroll.ee and appends it to storage/leads.csv so a
- * lead is never lost even if mail delivery fails.
+ * lead is never lost even if mail delivery fails. Attached files go into the mail and are also kept
+ * in storage/uploads/, which is never served.
  *
  * Answers JSON when the page posts with fetch (main.js), and a small HTML page
  * when a browser posts the form directly (no JS).
@@ -31,6 +32,22 @@ $CONFIG = [
     'rate_win'  => 3600,  // … per this many seconds
     'min_fill'  => 3,     // a human needs at least this many seconds to fill it in
     'max_len'   => 2000,  // per field
+    'uploads'   => __DIR__ . '/storage/uploads',
+    'max_files' => 5,
+    'max_file'  => 10 * 1024 * 1024,   // per file
+    'max_total' => 20 * 1024 * 1024,   // all files; base64 makes the mail about a third bigger
+];
+
+/* Attachments we accept, by extension, with the type the mail announces them as. */
+$FILE_TYPES = [
+    'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif', 'webp' => 'image/webp',
+    'heic' => 'image/heic', 'heif' => 'image/heif', 'pdf' => 'application/pdf', 'txt' => 'text/plain',
+    'doc' => 'application/msword',
+    'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'xls' => 'application/vnd.ms-excel',
+    'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'odt' => 'application/vnd.oasis.opendocument.text',
+    'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
 ];
 
 /* The form: which fields are accepted, which are required. */
@@ -46,17 +63,17 @@ $LABELS = [
     'et' => [
         'name' => 'Nimi', 'phone' => 'Telefon', 'email' => 'E-post',
         'address' => 'Objekti aadress või piirkond', 'what' => 'Mida on vaja kontrollida',
-        'date' => 'Soovitud kuupäev', 'language' => 'Eelistatud suhtluskeel',
+        'date' => 'Soovitud kuupäev', 'language' => 'Eelistatud suhtluskeel', 'files' => 'Lisatud failid',
     ],
     'en' => [
         'name' => 'Name', 'phone' => 'Phone', 'email' => 'E-mail',
         'address' => 'Object address or area', 'what' => 'What needs checking',
-        'date' => 'Preferred date', 'language' => 'Preferred language',
+        'date' => 'Preferred date', 'language' => 'Preferred language', 'files' => 'Attached files',
     ],
     'ru' => [
         'name' => 'Имя', 'phone' => 'Телефон', 'email' => 'Эл. почта',
         'address' => 'Адрес или район объекта', 'what' => 'Что нужно проверить',
-        'date' => 'Желаемая дата', 'language' => 'Предпочитаемый язык',
+        'date' => 'Желаемая дата', 'language' => 'Предпочитаемый язык', 'files' => 'Приложенные файлы',
     ],
 ];
 
@@ -74,6 +91,9 @@ $TEXT = [
         'err_fields' => 'Palun täitke kohustuslikud väljad.',
         'err_email'  => 'Palun kontrollige e-posti aadressi.',
         'err_rate'   => 'Liiga palju päringuid. Proovige hiljem uuesti või kirjutage aadressile info@kodukontroll.ee.',
+        'err_count'  => 'Korraga saab lisada kuni 5 faili.',
+        'err_size'   => 'Failid on liiga suured: kokku kuni 20 MB, üks fail kuni 10 MB. Suuremad failid saatke aadressile info@kodukontroll.ee.',
+        'err_type'   => 'Seda failitüüpi ei saa lisada. Sobivad fotod, PDF, Word ja Excel.',
         'back'       => 'Tagasi avalehele',
         'home'       => '/',
     ],
@@ -85,6 +105,9 @@ $TEXT = [
         'err_fields' => 'Please fill in the required fields.',
         'err_email'  => 'Please check the e-mail address.',
         'err_rate'   => 'Too many requests. Try again later or write to info@kodukontroll.ee.',
+        'err_count'  => 'You can attach up to 5 files.',
+        'err_size'   => 'The files are too large: 20 MB in total, 10 MB per file. Send larger files to info@kodukontroll.ee.',
+        'err_type'   => 'This file type cannot be attached. Photos, PDF, Word and Excel work.',
         'back'       => 'Back to the home page',
         'home'       => '/en/',
     ],
@@ -96,6 +119,9 @@ $TEXT = [
         'err_fields' => 'Пожалуйста, заполните обязательные поля.',
         'err_email'  => 'Проверьте адрес электронной почты.',
         'err_rate'   => 'Слишком много запросов. Попробуйте позже или напишите на info@kodukontroll.ee.',
+        'err_count'  => 'Можно приложить не более 5 файлов.',
+        'err_size'   => 'Файлы слишком большие: всего до 20 МБ, один файл до 10 МБ. Большие файлы пришлите на info@kodukontroll.ee.',
+        'err_type'   => 'Этот тип файла нельзя приложить. Подходят фото, PDF, Word и Excel.',
         'back'       => 'На главную',
         'home'       => '/ru/',
     ],
@@ -116,6 +142,11 @@ $wantsJson = post('ajax') === '1'
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     respond(405, false, $t['err_title'], $t['err_text'], $wantsJson, $t);
+}
+
+/* A body over post_max_size arrives with $_POST and $_FILES both empty; say so instead of "fill in the fields". */
+if ($_POST === [] && $_FILES === [] && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+    respond(413, false, $t['err_title'], $t['err_size'], $wantsJson, $t);
 }
 
 /* Reject a cross-site post; browsers send Origin on same-origin posts too.
@@ -161,6 +192,11 @@ if ($email === false) {
 }
 $values['email'] = $email;
 
+$files = collect_files($CONFIG, $FILE_TYPES);
+if (is_string($files)) {
+    respond(422, false, $t['err_title'], $t[$files], $wantsJson, $t);
+}
+
 /* ------------------------------------------------------------------ send -- */
 
 $page = post('page');
@@ -173,8 +209,9 @@ $meta = [
     'ua'   => mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 300),
 ];
 
+$meta['files'] = store_files($CONFIG['uploads'], $files);
 $logged = log_lead($CONFIG['log'], $values, $meta);
-$sent   = send_mail($CONFIG, $SUBJECTS[$formId][$lang], $LABELS[$lang], $values, $meta);
+$sent   = send_mail($CONFIG, $SUBJECTS[$formId][$lang], $LABELS[$lang], $values, $meta, $files);
 
 if (!$sent && !$logged) {
     error_log('kodukontroll: form entry lost (mail and log both failed) ' . json_encode($values, JSON_UNESCAPED_UNICODE));
@@ -202,6 +239,85 @@ function post(string $key): string
 {
     $v = $_POST[$key] ?? '';
     return is_string($v) ? trim($v) : '';
+}
+
+/**
+ * The uploaded files[] as a list of ['name', 'ext', 'type', 'size', 'tmp'], or the $TEXT key of the
+ * problem. Accepts by extension only; nothing in storage/ is ever served, so a mislabelled file
+ * can only reach the inbox, where the mail client treats it like any other attachment.
+ */
+function collect_files(array $config, array $types): array|string
+{
+    $in = $_FILES['files'] ?? null;
+    if (!is_array($in) || !is_array($in['name'] ?? null)) {
+        return [];
+    }
+    $files = [];
+    $total = 0;
+    foreach ($in['name'] as $i => $name) {
+        $error = (int) ($in['error'][$i] ?? UPLOAD_ERR_NO_FILE);
+        if ($error === UPLOAD_ERR_NO_FILE) {
+            continue;
+        }
+        if ($error === UPLOAD_ERR_INI_SIZE || $error === UPLOAD_ERR_FORM_SIZE) {
+            return 'err_size';
+        }
+        if ($error !== UPLOAD_ERR_OK || !is_uploaded_file((string) $in['tmp_name'][$i])) {
+            return 'err_text';
+        }
+        $name = clean_filename((string) $name);
+        $ext  = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+        if (!isset($types[$ext])) {
+            return 'err_type';
+        }
+        $size   = (int) $in['size'][$i];
+        $total += $size;
+        if ($size > $config['max_file'] || $total > $config['max_total']) {
+            return 'err_size';
+        }
+        $files[] = ['name' => $name, 'ext' => $ext, 'type' => $types[$ext], 'size' => $size, 'tmp' => (string) $in['tmp_name'][$i]];
+    }
+    return count($files) > $config['max_files'] ? 'err_count' : $files;
+}
+
+/** A file name safe to store and to put in a mail header: no path, no control characters. */
+function clean_filename(string $name): string
+{
+    $name = str_replace('\\', '/', $name);
+    $name = substr($name, (int) strrpos('/' . $name, '/'));   // basename() is locale-dependent with UTF-8
+    $name = preg_replace('/[\x00-\x1F\x7F"\/:*?<>|]+/u', '_', $name) ?? '';
+    $name = trim($name, " .\t");
+    if (!mb_check_encoding($name, 'UTF-8') || $name === '') {
+        $name = 'fail';
+    }
+    return mb_substr($name, -120);
+}
+
+/** Moves the uploads into their own folder under storage/uploads/; returns that folder's name for the log. */
+function store_files(string $root, array &$files): string
+{
+    if ($files === [] || !ensure_storage($root)) {
+        return '';
+    }
+    $folder = date('Ymd-His') . '-' . bin2hex(random_bytes(3));
+    $dir    = $root . '/' . $folder;
+    if (!@mkdir($dir, 0700)) {
+        return '';
+    }
+    $used = [];
+    foreach ($files as $i => $f) {
+        $name = $f['name'];
+        for ($n = 2; isset($used[strtolower($name)]); $n++) {
+            $name = pathinfo($f['name'], PATHINFO_FILENAME) . "-$n." . $f['ext'];
+        }
+        $used[strtolower($name)] = true;
+        if (@move_uploaded_file($f['tmp'], $dir . '/' . $name)) {
+            @chmod($dir . '/' . $name, 0600);
+            $files[$i]['tmp']  = $dir . '/' . $name;   // the mail reads it from here
+            $files[$i]['name'] = $name;
+        }
+    }
+    return 'uploads/' . $folder;
 }
 
 function client_ip(): string
@@ -278,7 +394,7 @@ function log_lead(string $path, array $values, array $meta): bool
     if (!ensure_storage(dirname($path))) {
         return false;
     }
-    $columns = ['time', 'form', 'lang', 'name', 'email', 'phone', 'address', 'what', 'date', 'language', 'page', 'ip', 'ua'];
+    $columns = ['time', 'form', 'lang', 'name', 'email', 'phone', 'address', 'what', 'date', 'language', 'page', 'ip', 'ua', 'files'];
     $row     = [];
     foreach ($columns as $c) {
         $row[] = $meta[$c] ?? $values[$c] ?? '';
@@ -304,7 +420,7 @@ function log_lead(string $path, array $values, array $meta): bool
     return $ok;
 }
 
-function send_mail(array $config, string $subject, array $labels, array $values, array $meta): bool
+function send_mail(array $config, string $subject, array $labels, array $values, array $meta, array $files = []): bool
 {
     $lines = [];
     foreach ($values as $field => $value) {
@@ -318,6 +434,17 @@ function send_mail(array $config, string $subject, array $labels, array $values,
             $lines[] = $value;
         } else {
             $lines[] = $label . ': ' . $value;
+        }
+    }
+
+    if ($files !== []) {
+        $lines[] = '';
+        $lines[] = ($labels['files'] ?? 'Files') . ':';
+        foreach ($files as $f) {
+            $lines[] = '- ' . $f['name'] . ' (' . max(1, (int) round($f['size'] / 1024)) . ' KB)';
+        }
+        if ($meta['files'] !== '') {
+            $lines[] = 'Koopia serveris: storage/' . $meta['files'];
         }
     }
 
@@ -340,10 +467,30 @@ function send_mail(array $config, string $subject, array $labels, array $values,
         'From: ' . $config['from'],
         'Reply-To: ' . mime_name($values['name']) . ' <' . $values['email'] . '>',
         'MIME-Version: 1.0',
-        'Content-Type: text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding: 8bit',
         'X-Mailer: kodukontroll-form',
     ];
+
+    if ($files === []) {
+        $headers[] = 'Content-Type: text/plain; charset=UTF-8';
+        $headers[] = 'Content-Transfer-Encoding: 8bit';
+    } else {
+        /* multipart/mixed: the text first, then each file as a base64 attachment. */
+        $boundary  = '=_kk_' . bin2hex(random_bytes(12));
+        $headers[] = 'Content-Type: multipart/mixed; boundary="' . $boundary . '"';
+        $parts     = "--$boundary\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n" . $body . "\r\n";
+        foreach ($files as $f) {
+            $data = @file_get_contents($f['tmp']);
+            if ($data === false) {
+                continue;
+            }
+            $parts .= "--$boundary\r\n"
+                . 'Content-Type: ' . $f['type'] . '; name="' . mime_header($f['name']) . "\"\r\n"
+                . "Content-Transfer-Encoding: base64\r\n"
+                . 'Content-Disposition: attachment; filename="' . mime_header($f['name']) . '"; filename*=UTF-8\'\'' . rawurlencode($f['name']) . "\r\n\r\n"
+                . chunk_split(base64_encode($data), 76, "\r\n");
+        }
+        $body = $parts . "--$boundary--\r\n";
+    }
 
     return @mail(
         $config['to'],

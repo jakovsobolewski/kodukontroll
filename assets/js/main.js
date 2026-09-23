@@ -199,6 +199,83 @@
     });
   });
 
+  /* ---- File attachments: add in several goes, list them, remove one, check size and type before sending ---- */
+  var FILE_EXT = /\.(jpe?g|png|heic|heif|webp|gif|pdf|docx?|xlsx?|odt|ods|txt)$/i;
+  [].slice.call(d.querySelectorAll('[data-files]')).forEach(function (field) {
+    var input = field.querySelector('input[type="file"]');
+    var drop = field.querySelector('.files__drop');
+    var list = field.querySelector('.files__list');
+    var form = field.closest('form');
+    if (!input || !list || !form) return;
+    var maxFiles = +field.getAttribute('data-max-files') || 5;
+    var maxFile = +field.getAttribute('data-max-file') || 10485760;
+    var maxTotal = +field.getAttribute('data-max-total') || 20971520;
+    var canEdit = true;
+    try { new DataTransfer(); } catch (x) { canEdit = false; }   // no DataTransfer: the input keeps only the last pick
+    var picked = [];
+    var errEl = d.createElement('p');
+    errEl.className = 'files__err';
+    errEl.setAttribute('role', 'alert');
+    errEl.hidden = true;
+    list.parentNode.insertBefore(errEl, list.nextSibling);
+
+    function size(n) {
+      return n < 1048576 ? Math.max(1, Math.round(n / 1024)) + ' KB' : (n / 1048576).toFixed(1).replace('.0', '') + ' MB';
+    }
+    function problem() {
+      var total = 0;
+      if (picked.length > maxFiles) return field.getAttribute('data-err-count');
+      for (var i = 0; i < picked.length; i++) {
+        if (!FILE_EXT.test(picked[i].name)) return field.getAttribute('data-err-type');
+        if (picked[i].size > maxFile) return field.getAttribute('data-err-size');
+        total += picked[i].size;
+      }
+      return total > maxTotal ? field.getAttribute('data-err-size') : '';
+    }
+    function sync() {
+      if (canEdit) {
+        var dt = new DataTransfer();
+        picked.forEach(function (f) { dt.items.add(f); });
+        input.files = dt.files;
+      }
+      list.innerHTML = '';
+      picked.forEach(function (f, i) {
+        var li = d.createElement('li');
+        var name = d.createElement('span'); name.className = 'files__name'; name.textContent = f.name; name.title = f.name;
+        var sz = d.createElement('span'); sz.className = 'files__size'; sz.textContent = size(f.size);
+        li.appendChild(name); li.appendChild(sz);
+        if (canEdit) {
+          var rm = d.createElement('button');
+          rm.type = 'button'; rm.className = 'files__remove';
+          rm.textContent = field.getAttribute('data-remove') || '×';
+          rm.setAttribute('aria-label', rm.textContent + ': ' + f.name);
+          rm.addEventListener('click', function () { picked.splice(i, 1); sync(); input.focus(); });
+          li.appendChild(rm);
+        }
+        list.appendChild(li);
+      });
+      var p = problem();
+      errEl.textContent = p;
+      errEl.hidden = !p;
+    }
+
+    input.addEventListener('change', function () {
+      var added = [].slice.call(input.files || []);
+      if (!canEdit) picked = [];
+      added.forEach(function (f) {
+        var dup = picked.some(function (g) { return g.name === f.name && g.size === f.size; });
+        if (!dup) picked.push(f);
+      });
+      sync();
+    });
+    if (drop) {
+      ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function () { drop.classList.add('is-over'); }); });
+      ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function () { drop.classList.remove('is-over'); }); });
+    }
+    form.addEventListener('reset', function () { picked = []; setTimeout(sync, 0); });
+    form._filesProblem = function () { sync(); return problem(); };
+  });
+
   /* ---- Forms: post to /form.php with fetch, keep the native post as fallback ---- */
   [].slice.call(d.querySelectorAll('form[data-endpoint]')).forEach(function (form) {
     var opened = String(Date.now());          // how long the visitor took; the endpoint drops instant posts
@@ -215,6 +292,12 @@
     }
 
     form.addEventListener('submit', function (e) {
+      if (form._filesProblem && form._filesProblem()) {   // too many, too big or wrong type: the field says which
+        e.preventDefault();
+        var fe = form.querySelector('.files__err');
+        if (fe) fe.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        return;
+      }
       if (!w.fetch || !w.FormData) return;    // old browser: let it post the form itself
       e.preventDefault();
       if (busy) return;
