@@ -387,16 +387,8 @@ strong, .strong { font-weight: 600; }
 .field label, .field .label { font-family: var(--sans-cond); font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); transition: color .25s; }
 .field:focus-within label { color: var(--check); }
 .field input, .field select, .field textarea {
-  font: inherit; font-size: 1.05rem; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--line);
+  font: inherit; font-size: 1.05rem; color: var(--ink-2); background: transparent; border: 0; border-bottom: 1px solid var(--line);
   border-radius: 0; padding: .5rem 0; width: 100%;
-}
-.field input::placeholder,
-.field textarea::placeholder {
-  color: var(--ink-3);
-  opacity: 1;
-}
-.field input[type="date"]::-webkit-date-and-time-value {
-  color: var(--ink);
 }
 .field input:focus, .field select:focus, .field textarea:focus { outline: 0; }
 .field::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--check); transform: scaleX(0); transform-origin: left; transition: transform .4s var(--ease); pointer-events: none; }
