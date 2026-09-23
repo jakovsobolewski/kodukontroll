@@ -232,23 +232,35 @@
       }).then(function (r) {
         return r.json().catch(function () { return {}; }).then(function (j) { return { r: r, j: j }; });
       }).then(function (res) {
+        
         if (res.r.ok && res.j.ok) {
-          if (ok) {
-            ok.innerHTML = '';
+  if (ok) {
+    ok.innerHTML = '';
 
-            var title = d.createElement('strong');
-            title.className = 'form-status__title';
-            title.textContent = res.j.title || 'Aitäh! Päring on saadetud.';
+    if (res.j.title) {
+      var title = d.createElement('strong');
+      title.className = 'form-status__title';
+      title.textContent = res.j.title;
+      ok.appendChild(title);
+    }
+    if (res.j.message) {
+      var text = d.createElement('span');
+      text.className = 'form-status__text';
+      text.textContent = res.j.message;
+      ok.appendChild(text);
+    }
+  }
 
-            var text = d.createElement('span');
-            text.className = 'form-status__text';
-            text.textContent = res.j.message || '';
+  form.reset();
+  show(ok);
 
-            ok.appendChild(title);
-            ok.appendChild(text);
-        }
-          form.reset();
-          show(ok);
+  if (ok) {
+    ok.scrollIntoView({
+      behavior: reduce ? 'auto' : 'smooth',
+      block: 'center'
+    });
+  }
+}      
         } else {
           if (msg) msg.textContent = res.j.message || defaultError;
           show(err);
