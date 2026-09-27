@@ -9,7 +9,7 @@
 > finding more defects than exist. Operated by Little Kris OÜ, Tallinn.
 
 Everything below is stated on the public pages linked at the end. Facts are
-current as of 2026-09-21; prices and scope are confirmed in writing before any
+current as of 2026-09-27; prices and scope are confirmed in writing before any
 visit.
 
 ## What it is
@@ -50,6 +50,26 @@ contract and drawings supplied. Nothing is opened, dismantled or damaged.
    inspection.
 6. **Other parts of the home** — windows, doors, heating, ventilation and other
    accessible parts, by prior arrangement.
+
+## New apartment acceptance (separate service, from 299 €)
+
+For buyers taking over a new apartment (or house, or a finished renovation)
+from a developer, Kodukontroll offers a dedicated **acceptance inspection before
+the acceptance act is signed** (ET *korteri vastuvõtt*, RU *приёмка квартиры*).
+It covers walls and ceilings, floors and skirting, windows and doors, the
+bathroom and plumbing, electrics and lighting (visible quality and operation;
+measurements and the distribution board by a qualified specialist, agreed
+separately), ventilation and heating, balcony, terrace and extra rooms, and
+optionally furniture and appliances handed over with the apartment. The client
+receives a list of defects with photographs, a plain description and severity
+of each remark, recommendations, questions and demands for the developer, and a
+written report, normally within 2–3 working days. Inspection from 299 €,
+re-inspection after remedial work from 99 €; prices exclude VAT, travel outside
+Tallinn is charged separately. Typical duration 1.5–3 hours. Standard
+inspection is visual and non-destructive; concealed work is assessed only as far
+as accessible. Pages: https://kodukontroll.ee/korteri-vastuvott/ (ET),
+https://kodukontroll.ee/en/apartment-acceptance/ (EN),
+https://kodukontroll.ee/ru/priemka-kvartiry/ (RU).
 
 ## Two levels
 
@@ -145,3 +165,8 @@ Russian: независимая проверка · приёмка ремонт�
   the six areas checked, prices, process, FAQ.
 - [Kodukontroll (English)](https://kodukontroll.ee/en/): the same page in English.
 - [Kodukontroll (Russian)](https://kodukontroll.ee/ru/): the same page in Russian.
+- [Korteri vastuvõtt](https://kodukontroll.ee/korteri-vastuvott/): new apartment
+  acceptance inspection — what is checked, what the client gets, process,
+  prices, limits, FAQ (Estonian).
+- [Apartment acceptance inspection](https://kodukontroll.ee/en/apartment-acceptance/): the same page in English.
+- [Приёмка квартиры](https://kodukontroll.ee/ru/priemka-kvartiry/): the same page in Russian.

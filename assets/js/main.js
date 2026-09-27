@@ -100,7 +100,7 @@
     var navMap = {};
     navLinks.forEach(function (a) { navMap[a.getAttribute('href').slice(1)] = a; });
     // nav groups: sections without their own nav item map to the nearest preceding one
-    var groupFor = { when: 'checks', report: 'checks', process: 'pricing', levels: 'pricing', story: 'why', team: 'why' };
+    var groupFor = { when: 'checks', apartment: 'checks', report: 'checks', process: 'pricing', levels: 'pricing', story: 'why', team: 'why' };
     var current = null;
     var sio = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {

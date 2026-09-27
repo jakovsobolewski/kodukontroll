@@ -476,6 +476,30 @@ strong, .strong { font-weight: 600; }
 .nf h1 { margin-bottom: 1.4rem; }
 .nf .actions { margin-top: 1.5rem; }
 
+/* ---------- Offer card (apartment acceptance, on the home page) ---------- */
+.offer { border: 1px solid var(--line); background: var(--sheet); border-radius: var(--radius); padding: clamp(1.4rem, 3vw, 2.4rem); display: grid; gap: 1.6rem; }
+@media (min-width: 900px) { .offer { grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 3rem; align-items: start; } }
+.offer h2 { margin: .5rem 0 1rem; max-width: 20ch; }
+.offer__body p { color: var(--ink-2); max-width: 60ch; }
+.offer__body p:last-child { margin-bottom: 0; }
+.offer__side { display: grid; gap: .5rem; align-content: start; }
+@media (min-width: 900px) { .offer__side { border-left: 1px solid var(--line); padding-left: 2.4rem; } }
+.offer__side .pcard__amt { margin: 0; }
+.offer__side .actions { margin-top: 1rem; }
+.offer__side .btn { width: 100%; text-align: center; }
+
+/* ---------- Service sub-page (korteri-vastuvott / apartment-acceptance / priemka-kvartiry) ---------- */
+.hero--page h1 { max-width: 20ch; }
+.hero--page .hero__cols > div > .dim { max-width: 60ch; }
+.hero__kicker { margin-bottom: 1.2rem; }
+.tl__step p + p { margin-top: .6rem; }
+.tl__step .ck { margin: .8rem 0 .4rem; max-width: 60ch; }
+.tl__step .ck li { font-size: 1rem; padding: .45rem 0; }
+@media (min-width: 720px) { .pcards.pcards--2 { grid-template-columns: repeat(2, 1fr); } }
+.pcard__intro { margin: .2rem 0 .3rem; color: var(--ink-2); font-size: 1rem; }
+.pcard .ck li { font-size: .98rem; padding: .45rem 0; }
+.rcard__list:last-child { padding-bottom: .9rem; }
+
 /* Grid children must shrink below content width */
 .sec__grid > *, .two > *, .hero__cols > *, .items > *, .foot__grid > *, .tabs > * { min-width: 0; }
 

@@ -17,6 +17,8 @@ the Estonian and English pages are translations of it.
 index.html          One-page site, Estonian (default)
 en/index.html       Same page in English
 ru/index.html       Same page in Russian
+korteri-vastuvott/  Service page: new apartment acceptance inspection (Estonian)
+en/apartment-acceptance/, ru/priemka-kvartiry/  The same page in English and Russian
 404.html            Not-found page (Estonian)
 .htaccess           HTTPS + www redirect, old-URL redirects, clean URLs, caching, 404
 form.php            Form endpoint: mails every entry to info@ and logs it to storage/
@@ -36,8 +38,21 @@ assets/report/template/ Source of the sample report; nothing under assets/report
 Each page has the same sections, in this order, with the same anchor ids in
 every language so links work across languages:
 
-`#when` · `#checks` · `#report` · `#process` · `#pricing` · `#levels` · `#why` ·
-`#story` (+ `#team`) · `#faq` · `#contact` (+ `#privacy`)
+`#when` · `#apartment` · `#checks` · `#report` · `#process` · `#pricing` · `#levels` ·
+`#why` · `#story` (+ `#team`) · `#faq` · `#contact` (+ `#privacy`)
+
+`#apartment` is the offer card for the apartment-acceptance service (added
+2026-09-27 from the client's brief `1.docx`); it links to the service page in
+the same language. Section backgrounds alternate paper / tint, so inserting a
+section means flipping `sec--tint` on everything after it.
+
+The service page (`korteri-vastuvott/`, `en/apartment-acceptance/`,
+`ru/priemka-kvartiry/`) reuses the home-page components — hero, checklist,
+tabs, report card, timeline, price cards, FAQ and the same contact form — with
+its own anchors: `#why` · `#checks` · `#report` · `#process` · `#pricing` ·
+`#notes` · `#faq` · `#contact`. Its language switcher and hreflang links point
+at the sibling service pages, its footer at the home-page sections. The Russian
+copy is the client's original; Estonian and English are translations of it.
 
 The old sub-pages (`/teenus`, `/hinnakiri`, `/meist`, `/kontakt`) redirect to
 the matching section via `.htaccess`.
@@ -265,7 +280,9 @@ Strategy doc: the Notion page *SEO Strategy* under SBLW / Businesses / kodukontr
 schema.org `@graph` between the markers `<!-- jsonld:start -->` and
 `<!-- jsonld:end -->` in `<head>`: the business, the site, the page, the
 service, the four price tiers as an `OfferCatalog`, the five process steps as a
-`HowTo`, and all fourteen FAQ entries as a `FAQPage`. It is built by reading the
+`HowTo`, and all fourteen FAQ entries as a `FAQPage`. The three service pages
+get a smaller graph (WebPage + breadcrumb, the Service with its two offers, the
+HowTo and the FAQ) from the same script. It is built by reading the
 page's own visible copy, so **after changing a price, a service name, a process
 step or a FAQ answer, re-run**:
 

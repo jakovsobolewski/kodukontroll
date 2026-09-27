@@ -28,6 +28,20 @@ PAGES = {
     "ru/index.html": dict(url=SITE + "/ru/", lang="ru", og="/assets/img/og-ru.png"),
 }
 
+# Service pages: one service, its own offers, steps and FAQ; the organisation
+# is described in full only on the home pages and referenced here by @id.
+SUBPAGES = {
+    "korteri-vastuvott/index.html": dict(url=SITE + "/korteri-vastuvott/", lang="et", og="/assets/img/og-et.png",
+                                         home="index.html", published="2026-09-27", tiers=["acceptance", "recheck"],
+                                         crumb="Korteri vastuvõtt"),
+    "en/apartment-acceptance/index.html": dict(url=SITE + "/en/apartment-acceptance/", lang="en", og="/assets/img/og-en.png",
+                                               home="en/index.html", published="2026-09-27", tiers=["acceptance", "recheck"],
+                                               crumb="Apartment inspection"),
+    "ru/priemka-kvartiry/index.html": dict(url=SITE + "/ru/priemka-kvartiry/", lang="ru", og="/assets/img/og-ru.png",
+                                           home="ru/index.html", published="2026-09-27", tiers=["acceptance", "recheck"],
+                                           crumb="Приёмка квартиры"),
+}
+
 # The one thing that cannot be read off the page: which price tier is which.
 TIER_IDS = ["express", "standard", "complex", "recheck"]
 
@@ -66,13 +80,19 @@ def meta(src, name, attr="name"):
     return html.unescape(m.group(1)) if m else ""
 
 
-def price_tiers(src):
+def price_tiers(src, tier_ids=None):
     out = []
     for i, card in enumerate(re.findall(r'<article class="pcard".*?</article>', src, re.S)):
         name = text(re.search(r'<p class="meta">(.*?)</p>', card, re.S).group(1))
         amount = re.search(r'data-count="(\d+)"', card).group(1)
-        desc = text(re.findall(r"<p[^>]*>(.*?)</p>", card, re.S)[-1])
-        out.append((TIER_IDS[i] if i < len(TIER_IDS) else "tier%d" % i, name, amount, desc))
+        intro = re.search(r'<p class="pcard__intro">(.*?)</p>', card, re.S)
+        if intro:
+            items = [text(li) for li in re.findall(r"<li[^>]*>(.*?)</li>", card, re.S)]
+            desc = text(intro.group(1)) + " " + " ".join(items)
+        else:
+            desc = text(re.findall(r"<p[^>]*>(.*?)</p>", card, re.S)[-1])
+        ids = tier_ids or TIER_IDS
+        out.append((ids[i] if i < len(ids) else "tier%d" % i, name, amount, desc))
     return out
 
 
@@ -164,7 +184,7 @@ def graph(path, page):
         "hasOfferCatalog": {"@id": url + "#catalog"},
         "serviceOutput": {
             "@type": "CreativeWork",
-            "name": text(re.search(r'<section class="sec" id="report">.*?<b>(.*?)</b>', src, re.S).group(1)),
+            "name": text(re.search(r'<section class="sec[^"]*" id="report">.*?<b>(.*?)</b>', src, re.S).group(1)),
             "encodingFormat": "application/pdf",
         },
     }
@@ -172,7 +192,7 @@ def graph(path, page):
     catalog = {
         "@type": "OfferCatalog",
         "@id": url + "#catalog",
-        "name": text(re.search(r'<section class="sec" id="pricing">.*?<h2>(.*?)</h2>', src, re.S).group(1)),
+        "name": text(re.search(r'<section class="sec[^"]*" id="pricing">.*?<h2>(.*?)</h2>', src, re.S).group(1)),
         "inLanguage": lang,
         "itemListElement": [{
             "@type": "Offer",
@@ -232,19 +252,112 @@ def graph(path, page):
             "@graph": [org, website, webpage, service, catalog, howto, faqpage]}
 
 
+def subgraph(path, page):
+    """A service page: WebPage + breadcrumb, the Service with its offers, the HowTo and the FAQ."""
+    src = pathlib.Path(path).read_text(encoding="utf-8")
+    url, lang = page["url"], page["lang"]
+    title = html.unescape(re.search(r"<title>(.*?)</title>", src, re.S).group(1))
+    desc = meta(src, "description")
+    h1 = text(re.search(r"<h1[^>]*>(.*?)</h1>", src, re.S).group(1))
+    tiers = price_tiers(src, page["tiers"])
+    areas = check_areas(src)
+    qa = faq(src)
+    area_served = [
+        {"@type": "City", "name": "Tallinn"},
+        {"@type": "AdministrativeArea", "name": "Harju maakond"},
+        {"@type": "Country", "name": "Estonia"},
+    ]
+    home_url = PAGES[page["home"]]["url"]
+    home_name = text(re.search(r'<span class="brand__name">(.*?)</span>', src, re.S).group(1))
+
+    webpage = {
+        "@type": "WebPage", "@id": url + "#webpage", "url": url, "name": title,
+        "description": desc, "inLanguage": lang,
+        "isPartOf": {"@id": SITE + "/#website"},
+        "about": {"@id": SITE + "/#organization"},
+        "primaryImageOfPage": {"@type": "ImageObject", "url": SITE + page["og"],
+                               "width": 1200, "height": 630},
+        "datePublished": page["published"],
+        "dateModified": TODAY,
+        "breadcrumb": {"@id": url + "#breadcrumb"},
+        "mainEntity": {"@id": url + "#service"},
+        "hasPart": [{"@id": url + "#faq"}, {"@id": url + "#process"}],
+    }
+    crumbs = {
+        "@type": "BreadcrumbList", "@id": url + "#breadcrumb",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": home_name, "item": home_url},
+            {"@type": "ListItem", "position": 2, "name": page["crumb"], "item": url},
+        ],
+    }
+    service = {
+        "@type": "Service",
+        "@id": url + "#service",
+        "name": title.split("—")[0].strip(),
+        "serviceType": title.split("—")[0].strip(),
+        "description": h1 + " " + desc,
+        "provider": {"@id": SITE + "/#organization"},
+        "areaServed": area_served,
+        "hasOfferCatalog": {"@id": url + "#catalog"},
+        "serviceOutput": {"@type": "CreativeWork", "name": text(re.search(r'<div class="rcard__head"><span class="meta"><b>(.*?)</b>', src, re.S).group(1)),
+                          "encodingFormat": "application/pdf"},
+    }
+    catalog = {
+        "@type": "OfferCatalog",
+        "@id": url + "#catalog",
+        "name": text(re.search(r'<section class="sec[^"]*" id="pricing">.*?<h2>(.*?)</h2>', src, re.S).group(1)),
+        "inLanguage": lang,
+        "itemListElement": [{
+            "@type": "Offer",
+            "@id": "%s#offer-%s" % (url, tid),
+            "name": name,
+            "description": d,
+            "priceCurrency": "EUR",
+            "priceSpecification": {"@type": "PriceSpecification",
+                                   "minPrice": int(amount), "priceCurrency": "EUR"},
+            "availability": "https://schema.org/InStock",
+            "areaServed": area_served,
+            "itemOffered": {"@type": "Service", "name": name,
+                            "provider": {"@id": SITE + "/#organization"},
+                            "serviceType": ", ".join(areas)},
+        } for tid, name, amount, d in tiers],
+    }
+    howto = {
+        "@type": "HowTo",
+        "@id": url + "#process",
+        "name": text(re.search(r'id="process">.*?<h2>(.*?)</h2>', src, re.S).group(1)),
+        "inLanguage": lang,
+        "isPartOf": {"@id": url + "#webpage"},
+        "estimatedCost": {"@type": "MonetaryAmount", "currency": "EUR",
+                          "minValue": min(int(a) for _, _, a, _ in tiers)},
+        "step": [{"@type": "HowToStep", "position": i + 1, "name": n, "text": t,
+                  "url": url + "#process"} for i, (n, t) in enumerate(steps(src))],
+    }
+    faqpage = {
+        "@type": "FAQPage", "@id": url + "#faq", "inLanguage": lang,
+        "isPartOf": {"@id": url + "#webpage"},
+        "mainEntity": [{"@type": "Question", "name": q,
+                        "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qa],
+    }
+    return {"@context": "https://schema.org",
+            "@graph": [webpage, crumbs, service, catalog, howto, faqpage]}
+
+
 START, END = "<!-- jsonld:start -->", "<!-- jsonld:end -->"
 
-for path, page in PAGES.items():
+for path, page in list(PAGES.items()) + list(SUBPAGES.items()):
     p = pathlib.Path(path)
     src = p.read_text(encoding="utf-8")
+    build = subgraph if path in SUBPAGES else graph
     block = '%s\n<script type="application/ld+json">%s</script>\n%s' % (
-        START, json.dumps(graph(path, page), ensure_ascii=False, separators=(",", ":")), END)
+        START, json.dumps(build(path, page), ensure_ascii=False, separators=(",", ":")), END)
     if START in src:
         src = re.sub(re.escape(START) + r".*?" + re.escape(END), lambda _: block, src, count=1, flags=re.S)
     else:
         src = re.sub(r'<script type="application/ld\+json">.*?</script>', lambda _: block, src, count=1, flags=re.S)
     p.write_text(src, encoding="utf-8")
-    g = graph(path, page)
-    print("%-16s offers=%d steps=%d faq=%d" % (
-        path, len(g["@graph"][4]["itemListElement"]),
-        len(g["@graph"][5]["step"]), len(g["@graph"][6]["mainEntity"])))
+    g = build(path, page)
+    by_type = {node["@type"] if isinstance(node["@type"], str) else "Org": node for node in g["@graph"]}
+    print("%-36s offers=%d steps=%d faq=%d" % (
+        path, len(by_type["OfferCatalog"]["itemListElement"]),
+        len(by_type["HowTo"]["step"]), len(by_type["FAQPage"]["mainEntity"])))
