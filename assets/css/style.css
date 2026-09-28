@@ -490,6 +490,8 @@ strong, .strong { font-weight: 600; }
 
 /* ---------- Service sub-page (korteri-vastuvott / apartment-acceptance / priemka-kvartiry) ---------- */
 .hero--page h1 { max-width: 20ch; }
+/* Service page: the standfirst sits under the heading, no wider than the title column */
+.sec__head--stack > .dim { max-width: 46ch; font-size: 1.05rem; line-height: 1.5; margin: 0; }
 .hero--page .hero__cols > div > .dim { max-width: 60ch; }
 .hero__kicker { margin-bottom: 1.2rem; }
 .tl__step p + p { margin-top: .6rem; }
