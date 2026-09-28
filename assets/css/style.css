@@ -247,7 +247,6 @@ strong, .strong { font-weight: 600; }
 .sec__head h2, .prose h2, .faq__intro h2 { color: var(--ink); }
 .sec__head > .dim, .sec__head > .lead, .faq__intro > .dim { color: var(--mark-soft); }
 .sec__head > .dim .strong, .sec__head > .dim b { color: inherit; }
-@media (min-width: 1000px) { .sec__head--split { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 3rem; align-items: end; } }
 .sec__head .lead { max-width: 52ch; }
 .two { display: grid; gap: 2.5rem; align-items: start; }
 @media (min-width: 900px) { .two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; } }
@@ -490,7 +489,7 @@ strong, .strong { font-weight: 600; }
 
 /* ---------- Service sub-page (korteri-vastuvott / apartment-acceptance / priemka-kvartiry) ---------- */
 .hero--page h1 { max-width: 20ch; }
-/* Service page: the standfirst sits under the heading, no wider than the title column */
+/* Section standfirst sits under the heading, no wider than the title column (all pages, since 2026-09-28) */
 .sec__head--stack > .dim { max-width: 46ch; font-size: 1.05rem; line-height: 1.5; margin: 0; }
 .hero--page .hero__cols > div > .dim { max-width: 60ch; }
 .hero__kicker { margin-bottom: 1.2rem; }
