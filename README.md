@@ -33,11 +33,12 @@ assets/report/template/ Source of the sample report; nothing under assets/report
                         linked from the site — the sample is sent by e-mail on request.
                         HTML+CSS template for real reports too, plus
                         koogi-ulevaatus.jpg (the object photo on page 2)
-assets/flyer/           Partner flyer ("visiitkaart"): one-page A4 PDF that partners
-                        forward to their customers by e-mail. flyer-et.html + flyer.css,
-                        QR code to kodukontroll.ee, build.sh renders the PDF with headless
-                        Chrome; the built kodukontroll-visiitkaart-et.pdf is committed.
-                        Not linked from the site.
+assets/flyer/           Partner flyers: short one-page A4 PDFs a partner forwards to its
+                        own clients, with a partner discount code. flyer-lahe-et.html
+                        (Lahe Kinnisvara, code LAHE20) + flyer.css + qr-lahe.svg;
+                        build.sh renders them with headless Chrome and the built PDF is
+                        committed. For a new partner, copy the HTML and change the name,
+                        code and QR UTM. Not linked from the site.
 ```
 
 Each page has the same sections, in this order, with the same anchor ids in
