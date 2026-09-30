@@ -3,3 +3,4 @@
 assets/report/template/out/
 storage/*
 !storage/.htaccess
+assets/flyer/out/
