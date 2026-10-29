@@ -100,7 +100,7 @@ All motion is CSS-first with a small JS layer (`assets/js/main.js`):
 
 ## Sample report
 
-The sample report is **not published and not offered on the site** (the
+The legacy illustrative template is not the public sample; real, anonymised samples are now linked in `#report` (the
 request form was dropped on 2026-09-19 as unnecessary work). `#report` on each
 page shows the report card (`.rcard`: what the document contains plus the
 finding counts) next to three plain facts about the document (`.rfacts`:
@@ -306,3 +306,25 @@ summarising Kodukontroll does not promise a court-grade expertise. Keep
 Share cards are regenerated with `python3 assets/img/make-og.py` (greyscale, same
 tokens as the site). `404.html` is `noindex` and deliberately carries no
 canonical and no hreflang.
+
+## Real cases and language-specific report samples
+
+Home pages contain two real cases in #examples with native details/summary photo
+accordions. Apartment service pages contain the apartment case only. All six
+landing pages link from #report to /assets/report/examples/sample-{et,en,ru}.pdf
+in the language of the page. No language detection or redirects are required.
+
+The English sample preserves the source report layout (8 selected pages). Russian
+and Estonian samples are labelled translations of that anonymised report (9 pages
+each), with the same observations and photographs. Names, client contacts, exact
+address, report identifier, inspection dates and developer name are omitted.
+Original client reports must not be committed. Photographs are metadata-free.
+No completed repairs, savings, or absence of hidden defects are claimed.
+
+CSS: assets/css/practice.css; photos: assets/img/cases; PDF thumbnails:
+assets/img/report-examples. Existing forms, pricing and Google Ads conversion
+code remain unchanged. PDF opens are not counted as lead conversions.
+
+Main is deployed automatically to Hostinger. Review in a feature branch before
+merging. Deployment checks: six pages, three PDF links and language correspondence,
+mobile accordions, contact links, and no private information in public assets.
