@@ -1,0 +1,21 @@
+/* Client needs: two equal primary services, real findings, concise reading journey. */
+.hero h1{max-width:22ch;font-size:clamp(2.6rem,5.4vw,5.4rem);line-height:1.08}
+.hero__side .actions{display:flex;flex-direction:column;align-items:stretch}
+.hero__side .btn{text-align:center;justify-content:center;white-space:normal}
+.sheet__notes h3{font-size:1.15rem;line-height:1.4}
+.sheet__block{grid-template-columns:repeat(2,minmax(0,1fr))}
+.focus-time{font-size:.8rem;line-height:1.5;color:var(--ink-3);margin:18px 0 0}
+.focus-services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin-top:24px}
+.focus-card{padding:36px;border:1px solid var(--rule);background:var(--sheet);display:flex;flex-direction:column;align-items:flex-start}
+.focus-card h2{font-size:clamp(1.8rem,3vw,2.6rem);margin:10px 0 24px;max-width:20ch}
+.focus-card p{max-width:52ch}.focus-card .btn{margin-top:auto;padding-top:16px;white-space:normal}
+.focus-card p:last-of-type{margin-bottom:28px}
+.focus-results,.focus-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin:32px 0 40px;padding:0;list-style:none}
+.focus-results>div,.focus-steps>li{border-top:1px solid var(--rule);padding-top:22px}
+.focus-results h3,.focus-steps h3{font-size:1.25rem;line-height:1.35;margin:10px 0 14px}
+.focus-secondary{display:grid;grid-template-columns:1fr 1fr;gap:56px}.focus-secondary h2{font-size:clamp(1.7rem,3vw,2.5rem);max-width:24ch}
+.focus-faq{display:grid;grid-template-columns:1fr 1.5fr;gap:56px}.focus-faq details{border-top:1px solid var(--rule);padding:20px 0}.focus-faq summary{cursor:pointer;font-weight:600;line-height:1.5}.focus-faq details p{padding-top:18px}
+.focus-checks{padding-top:32px}.focus-checks>details>summary{max-width:1260px;margin:0 auto;padding:24px clamp(20px,4vw,64px);font-size:1.2rem;font-weight:600;cursor:pointer;border-top:1px solid var(--rule)}
+.focus-checks>details[open]>.container{padding-top:35px}
+.practice{padding-top:40px}.real-report__head h2{font-size:clamp(2rem,4vw,3.4rem)}
+@media(max-width:800px){.focus-services,.focus-secondary,.focus-faq{grid-template-columns:1fr;gap:24px}.focus-card{padding:26px}.focus-results,.focus-steps{grid-template-columns:1fr;gap:8px}.hero h1{font-size:clamp(2.5rem,8vw,4.3rem)}.focus-checks .sec__grid{display:block}}
